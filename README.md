@@ -1,4 +1,4 @@
-<img src="https://raw.github.com/fmvilas/Didgeridoo-IDE/master/logo.png">
+<img src="logo.png">
 
 ##Important!
 Please understand it was a one-man project and it's not well documented, has a lot of bugs (even known although not reported), maybe has features that will be removed and even has things that appears but doesn't work yet.
