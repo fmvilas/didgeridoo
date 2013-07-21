@@ -1,8 +1,13 @@
 "use strict";
 
-define(['underscore'], function() {
-	//Create namespace 'shortcut'
-	didgeridoo.shortcut = {};
+/**
+ * Shortcut API
+ *
+ * @module api/shortcut
+ */
+define(['core', 'underscore'], function() {
+	
+	createNS('didgeridoo.api.shortcut');
 
 	didgeridoo.shortcut.map = [];
 
@@ -41,13 +46,13 @@ define(['underscore'], function() {
 		return result;
 	};
 	
-	didgeridoo.shortcut.exists = function(key) {
+	didgeridoo.api.shortcut.exists = function(key) {
 		return _.any(didgeridoo.shortcut.map, function(r) {
 			return r.key === key;
 		});
 	};
 
-	didgeridoo.shortcut.register = function(strKey, action) {
+	didgeridoo.api.shortcut.register = function(strKey, action) {
 		if( !action ) {
 			//throw ShortcutNoActionError
 		}
@@ -83,5 +88,7 @@ define(['underscore'], function() {
 			//throw ShorcutBusyError
 		}
 	};
+
+	return didgeridoo.api.shortcut;
 
 });
