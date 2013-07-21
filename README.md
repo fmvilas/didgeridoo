@@ -8,7 +8,7 @@ I'm in the process of cleaning and putting the code in order.
 ####Your help is more than welcome ;-)
 
 ##Installing
-Please, have a look at the [guide placed in the **docs** branch](https://github.com/fmvilas/Didgeridoo-IDE/tree/docs).
+Please, have a look at the [guide placed in the **docs** branch](https://github.com/fmvilas/didgeridoo/tree/docs).
 
 ##About
 Didgeridoo is a browser-based IDE using NodeJS and MongoDB in the server.
