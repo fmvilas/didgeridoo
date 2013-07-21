@@ -1,0 +1,16 @@
+{
+    "name": "didgeridoo-tools",
+    "version": "1.0",
+    "title": "Tools",
+    "iconClass": "didgeridoo-tools-icon",
+    "iconActiveClass": "didgeridoo-tools-icon-active",
+    "entrypoint": "main.js",
+    "files": {
+        "html": {
+            "main": "main.html"
+        },
+        "css": {
+            "main": "main.css"
+        }
+    }
+}

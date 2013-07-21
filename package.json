@@ -1,0 +1,34 @@
+{
+  "name": "didgeridoo-compound",
+  "version": "0.0.1-2",
+  "engines": [
+    "node >= 0.8.0"
+  ],
+  "main": "server.js",
+  "dependencies": {
+    "ejs": "*",
+    "ejs-ext": "latest",
+    "jade": "*",
+    "jade-ext": "latest",
+    "express": "~3.x",
+    "compound": "latest",
+    "jugglingdb": "latest",
+    "jugglingdb-mongodb": "latest",
+    "coffee-script": ">= 1.1.1",
+    "stylus": "latest",
+    "seedjs": "latest",
+    "co-assets-compiler": "*",
+    "mime": "*"
+  },
+  "devDependencies": {
+    "nodeunit": "*",
+    "sinon": "*",
+    "semicov": "*",
+    "co-generators": "*"
+  },
+  "scripts": {
+    "test": "nodeunit test/*/*",
+    "start": "node server.js"
+  },
+  "subdomain": "didgeridoo"
+}

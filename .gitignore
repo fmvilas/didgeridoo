@@ -1,0 +1,13 @@
+*.swp
+*.swo
+dist
+node_modules
+*.DS_Store
+.log
+npm-debug.log
+didgeridoo.sublime-project
+didgeridoo.sublime-workspace
+public.pem
+build
+app.build.js
+build.sh

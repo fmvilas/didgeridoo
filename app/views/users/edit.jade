@@ -1,0 +1,22 @@
+ul.breadcrumb
+      li
+        a(href='/') Home
+        span.divider /
+      li
+        != linkTo('users', pathTo.users())
+        span.divider /
+      li.active
+        a(href='#') Edit user
+
+.page-header
+  h1 Edit user
+
+- var form = formFor(user, {action: pathTo.user(user), method: 'PUT', id: "user_form", class: 'form-horizontal'});
+
+!= form.begin()
+include _form
+.form-actions
+  != form.submit('<i class="icon-ok icon-white"></i> Update user', {class: 'btn btn-primary'})
+  span= ' or '
+  != linkTo('Cancel', pathTo.user(user), {class: 'btn'})
+!= form.end()

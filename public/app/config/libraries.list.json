@@ -1,0 +1,44 @@
+{
+    "config": {
+		
+    },
+	
+    "libraries": {
+        "jqueryui": {
+            "js": "libraries/jqueryui/jquery-ui.min",
+            "css": "libraries/jqueryui/jquery-ui.css"
+        },
+        "extjs": {
+            "js": "libraries/extjs/ext-all",
+            "css": "libraries/extjs/resources/css/ext-all-gray.css"
+        },
+        "codemirror": {
+            "path": "libraries/codemirror/",
+            "keymap": {
+                "emacs": "libraries/codemirror/keymap/emacs.js",
+                "vim": "libraries/codemirror/keymap/vim.js"
+            },
+            "lib": {
+                "util": {
+            }
+            },
+            "mode": {
+                "xml": "libraries/codemirror/mode/xml/xml.js",
+                "css": "libraries/codemirror/mode/css/css.js",
+                "javascript": "libraries/codemirror/mode/javascript/javascript.js",
+                "htmlmixed": "libraries/codemirror/mode/htmlmixed/htmlmixed.js"
+            },
+            "theme": {
+                "didgeridoo": "libraries/codemirror/theme/didgeridoo.css"
+            },
+            "js": "libraries/codemirror/lib/codemirror",
+            "css": "libraries/codemirror/lib/codemirror.css"
+        },
+        "autoGrowInput": {
+            "js": "libraries/autoGrowInput/autoGrowInput"
+        },
+        "moment": {
+            "js": "libraries/moment/moment.min"
+        }
+    }
+}

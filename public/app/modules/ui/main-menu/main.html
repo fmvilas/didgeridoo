@@ -1,0 +1,58 @@
+<ul id="didgeridoo-main-menu" data-open="false">
+    <li class="didgeridoo-main-menu-disabled">
+        <a id="didgeridoo-main-menu-didgeridoo">Didgeridoo</a>
+    </li>
+    <li>
+        <a id="didgeridoo-main-menu-file">File</a>
+        <ul>
+            <li data-hotkey="Cmd+N" data-action="FileNew"><a>New</a></li>
+            <li data-hotkey="Cmd+O" data-action="FileOpenDialog"><a>Open...</a></li>
+            <li data-hotkey="Cmd+S" data-action="FileSave"><a>Save</a></li>
+            <li data-hotkey="Cmd+Shift+S" data-action="FileSaveAsDialog"><a>Save As...</a></li>
+            <li data-action="FileSaveAll"><a>Save All</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-hotkey="Cmd+W" data-action="FileClose"><a>Close</a></li>
+            <li data-hotkey="Cmd+Shift+W" data-action="FileCloseAll"><a>Close All</a></li>
+        </ul>
+    </li>
+    <li>
+        <a id="didgeridoo-main-menu-edit">Edit</a>
+        <ul>
+            <li data-hotkey="Cmd+Z" data-action="EditUndo"><a>Undo</a></li>
+            <li data-hotkey="Cmd+Y" data-action="EditRedo"><a>Redo</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-hotkey="Cmd+X" data-action="EditCut"><a>Cut</a></li>
+            <li data-hotkey="Cmd+C" data-action="EditCopy"><a>Copy</a></li>
+            <li data-hotkey="Cmd+V" data-action="EditPaste"><a>Paste</a></li>
+            <li data-hotkey="Del" data-action="EditDelete"><a>Delete</a></li>
+            <li data-hotkey="Cmd+A" data-action="EditSelectAll"><a>Select All</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-hotkey="Cmd+F" data-action="EditFind/ReplaceDialog"><a>Find/Replace</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-action="EditPreferencesDialog"><a>Preferences...</a></li>
+        </ul>
+    </li>
+    <li>
+        <a id="didgeridoo-main-menu-help">Help</a>
+        <ul>            
+            <li data-action="HelpContentsDialog"><a>Help Contents...</a></li>
+            <li data-action="Help3rdPartyReferenceDialog"><a>3rd Party Reference...</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-action="HelpSendFeedbackDialog"><a>Send Feedback...</a></li>
+            <li data-action="ExternalGoToURL" data-href="http://github.com/fmvilas/Didgeridoo-IDE"><a>Fork It on GitHub...</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-action="HelpAboutDialog"><a>About...</a></li>
+        </ul>
+    </li>
+</ul>
+
+<script id="didgeridoo-main-menu-user" type="text/x-jquery-tmpl">
+<li id="didgeridoo-main-menu-user-name" class="didgeridoo-main-menu-right" style="background: url('${avatar}') left top no-repeat transparent;">
+    <a>${name}</a>
+    <ul>
+        <li data-action="UserInviteFriends"><a>Invite Friends...</a></li>
+        <li data-action="UserProfile"><a>Profile...</a></li>
+        <li data-action="UserLogout"><a>Logout</a></li>
+    </ul>
+</li>
+</script>

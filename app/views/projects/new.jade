@@ -1,0 +1,22 @@
+ul.breadcrumb
+    li
+       a(href='/') Home
+       span.divider /
+    li
+       != linkTo('projects', pathTo.projects())
+       span.divider /
+    li.active
+       a(href='#') New project
+
+.page-header
+  h1 New project
+
+- var form = formFor(project, {action: pathTo.projects(), method: 'POST', id: "project_form", class: 'form-horizontal'})
+
+!= form.begin()
+include _form
+.form-actions
+  != form.submit('<i class="icon-ok icon-white"></i>  Create project', {class: 'btn btn-primary'})
+  span= ' or '
+  != linkTo('Cancel', pathTo.projects(), {class: 'btn'})
+!= form.end()

@@ -1,0 +1,29 @@
+/* jQuery UI */
+@import url('../app/libraries/jqueryui/css/jquery-ui.all.css');
+
+/* Twitter Bootstrap */
+@import url('../app/libraries/bootstrap/css/bootstrap.css');
+
+/* Flat UI */
+@import url('../app/libraries/flat-ui/css/flat-ui.css');
+
+/* Common Styles */
+@import url('./common.css');
+
+/* Icons */
+@import url('./icons.css');
+
+
+/*
+ * Didgeridoo modules
+ */
+
+
+/* Layout module */
+@import url('../app/modules/ui/layout/layout.css');
+
+/* MainMenu module */
+@import url('../app/modules/ui/main-menu/main.css');
+
+/* ProjectExplorer module */
+@import url('../app/modules/ui/project-explorer/main.css');

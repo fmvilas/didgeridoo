@@ -1,0 +1,39 @@
+ul.breadcrumb
+    li
+       a(href='/') Home
+       span.divider /
+    li.active
+       != linkTo('projects', path_to.projects())
+
+.page-header
+  h1 Index of projects
+
+
+.row
+  .span12
+     p
+        != linkTo('<i class="icon-plus icon-white"></i> New project', path_to.new_project(), {class: 'btn btn-primary'})
+
+- if (projects.length) {
+.row
+  .span12
+     table.table.table-striped
+       thead
+         tr
+           th ID
+           th.span3 Actions
+       tbody
+         - projects.forEach(function (project) {
+         tr
+           td
+             != linkTo('project #' + project.name, path_to.project(project))
+           td
+             != linkTo('<i class="icon-edit"></i> Edit', pathTo.edit_project(project), {class: 'btn btn-mini'}) + ' '
+             != linkTo('<i class="icon-remove icon-white"></i> Delete', pathTo.project(project), {class: 'btn btn-mini btn-danger', method: 'delete', remote: true, jsonp: '(function (u) {location.href = u;})'})
+         - });
+- } else{
+.row
+  .span12
+     p.alert.alert-block.alert-info
+        strong No projects were found.
+- }

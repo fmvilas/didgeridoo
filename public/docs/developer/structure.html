@@ -1,0 +1,180 @@
+				<div class="span9 content">
+					
+					<a id="introduction"></a>
+					<h1>App Structure</h1>
+					<p>
+						This page contains information about the structure of the code, how it's divided in modules, a link to the Asynchronous Module Definition (AMD) GitHub profile and the RequireJS website.
+					</p>
+
+					<hr>
+					
+					<h2>Introduction</h2>
+					<p>
+						The application is divided in four main parts or concepts. These are the core, the libraries, the modules and the templates.
+					</p>
+					<p>
+						The <a href="index.php?target=core">core</a> is a single file and it contains the main program, controlling the initialization of the app, the events and provides methods to deal with the libraries, modules and templates.
+					</p>
+					<p>
+						<a href="index.php?target=libraries">Libraries</a> are script files that provide a better and simple experience while coding, such as jQuery, jQuery UI, Bootstrap, etc.
+					</p>
+					<p>
+						<a href="index.php?target=modules">Modules</a> differs from libraries that these are programs that do specific tasks or provide visual elements to the interface, usually based on the use of libraries (e.g. the project explorer).
+					</p>
+					<p>
+						<a href="index.php?target=templates">Templates</a> are used to provide a starting point for the user to start designing a web site or web app.
+					</p>
+					<h6><span class="label label-warning">IMPORTANT:</span></h6>
+					<p>
+						It's important to say that jQuery is loaded before the <a href="index.php?target=core">core</a> as it uses this so known framework.
+					</p>
+					<a id="directory-structure"></a>
+					<h2>Directory Structure</h2>
+					<p>
+						<ul>
+							<li>
+								didgeridoo
+								<ul>
+									<li>index.html
+										<ul>
+											<li>
+												app
+												<ul>
+													<li>
+														init.js
+													</li>
+													<li>
+														core
+														<ul>
+															<li>didgeridoo.js</li>
+														</ul>
+													</li>
+													<li>
+														config
+														<ul>
+															<li>libraries.list.json</li>
+															<li>modules.list.json</li>
+														</ul>
+													</li>
+													<li>
+														libraries
+														<ul>
+															<li>
+																a library
+																<ul>
+																	<li>the files</li>
+																</ul>
+															</li>
+															<li>
+																another library
+																<ul>
+																	<li>the files</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+													<li>
+														modules
+														<ul>
+															<li>
+																ui
+																<ul>
+																	<li>
+																		_css
+																		<ul>
+																			<li>common.css</li>
+																		</ul>
+																	</li>
+																	<li>
+																		_images
+																		<ul>
+																			<li>common image files</li>
+																		</ul>
+																	</li>
+																	<li>
+																		a module
+																		<ul>
+																			<li>deps.json</li>
+																			<li>the files</li>
+																		</ul>
+																	</li>
+																	<li>
+																		another module
+																		<ul>
+																			<li>deps.json</li>
+																			<li>the files</li>
+																		</ul>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+													<li>
+														templates
+														<ul>
+															<li>
+																a template
+																<ul>
+																	<li>the files</li>
+																</ul>
+															</li>
+															<li>
+																another template
+																<ul>
+																	<li>the files</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						
+					</p>
+					<h6><span class="label label-success">Additional notes:</span></h6>
+					<p>
+						The <b>init</b> folder contains a script (init.js) that initializes the application. For that task, this script read the libraries and modules that should be opened at the beginning, from the libraries.list.json and the modules.list.json files.
+					</p>
+					<p>
+						The <b>deps.js</b> file inside every module folder has the dependencies for that module. Such as libraries to use, other modules to be loaded first, HTML markup or CSS rules.
+					</p>
+					
+					<a id="why"></a>
+					<h2>Why this structure?</h2>
+					<p>
+						Didgeridoo is based on a effective mix of succesful design patterns. These patterns are Facade, Mediator (a.k.a. Pub/Sub) and Module (AMD used here).
+					</p>
+					<p>
+						<a href="../img/modules-facade-core-libraries-diagram.jpg" target="_blank">
+							<img src="../img/modules-facade-core-libraries-diagram.jpg" width="100%" >
+						</a>
+					</p>
+					<p>
+						<h6>The main reasons for why are we using this <em>mix</em> of patterns:</h6>
+						<ul>
+							<li>With the use of the Module pattern we provide less coupling for the app, so if a module breaks, the application can still work. We can also simulate privacy.</li>
+							<li>The Facade provide a simple API to interact with the core, so what is happening behind the scenes stands behind the scenes.</li>
+							<li>Mediator pattern allows us to also decouple the application by using an event-driven system, and even we can perform validation after a module or another object subscribes to or publishes an event.</li>
+						</ul>
+					</p>
+					<p>
+						If you want to know more about these patterns check <a href="http://addyosmani.com/blog/jqcon-largescalejs-2012/" target="_blank">this entry</a> from the <a href="http://addyosmani.com/blog/" target="_blank">Addy Osmani blog</a>.
+					</p>
+					
+					<a id="amd"></a>
+					<h2>AMD</h2>
+					<p>
+						<a href="https://github.com/amdjs/amdjs-api/wiki/AMD" target="_blank">AMD GitHub profile.</a>
+					</p>
+					
+					<a id="requirejs"></a>
+					<h2>RequireJS</h2>
+					<p>
+						<a href="http://requirejs.org/" target="_blank">RequireJS website.</a>
+					</p>
+
+				</div><!--/span-->

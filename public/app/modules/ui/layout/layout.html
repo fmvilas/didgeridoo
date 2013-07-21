@@ -1,0 +1,27 @@
+<div class="ui-layout-north collapsed"></div>
+
+<div class="ui-layout-sidebar ui-layout-sidebar-collapsed ui-layout-aside light-scrollbar">
+        <div class="ui-layout-sidebar-nav">
+            <a class="ui-layout-sidebar-nav-icon-collapse" title="Expand Sidebar"></a>
+        </div>
+        <div class="container light-scrollbar">
+            
+        </div>
+    </div>
+
+<div class="ui-layout-center">
+	<ul class="ui-layout-center-tab-list unselectable" unselectable="on"></ul>
+	
+	<div style="background:white;position:absolute;left:0;top:0;right:0;bottom:0;z-index: 0;">
+		<h1 style="position: absolute; left:50%; top: 50%; margin-left: -280px; margin-top: -40px; font-size: 80px;">Splash Screen</h1>
+	</div>
+</div>
+
+<!--<div class="ui-layout-east ui-layout-aside light-scrollbar"><div class="container"></div></div>-->
+
+<script id="didgeridoo-panel-window-template" type="text/x-jquery-tmpl">
+    <div id="${id}" class="${classes} didgeridoo-panel-window">
+        <div class="didgeridoo-panel-window-header"><div class="didgeridoo-panel-window-header-title">${title}</div><a class="didgeridoo-panel-window-close"></a></div>
+        <div class="didgeridoo-panel-window-content light-scrollbar"></div>
+    </div>
+</script>

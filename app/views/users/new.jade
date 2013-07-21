@@ -1,0 +1,22 @@
+ul.breadcrumb
+    li
+       a(href='/') Home
+       span.divider /
+    li
+       != linkTo('users', pathTo.users())
+       span.divider /
+    li.active
+       a(href='#') New user
+
+.page-header
+  h1 New user
+
+- var form = formFor(user, {action: pathTo.users(), method: 'POST', id: "user_form", class: 'form-horizontal'})
+
+!= form.begin()
+include _form
+.form-actions
+  != form.submit('<i class="icon-ok icon-white"></i>  Create user', {class: 'btn btn-primary'})
+  span= ' or '
+  != linkTo('Cancel', pathTo.users(), {class: 'btn'})
+!= form.end()

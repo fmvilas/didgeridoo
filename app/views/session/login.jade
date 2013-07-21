@@ -1,0 +1,25 @@
+extends ../layouts/application_layout
+
+block styles
+	|<link rel="stylesheet" type="text/css" href="/css/login.css" />
+
+block content
+	h1 Login
+
+	!= formTagBegin({action: path_to.session, method: 'POST', class: 'login-form'})
+	
+	p
+		!= labelTag('Your email', {name: 'email'})
+	p
+		!= inputTag({name: 'email', value: 'demo@didgeridoo.io'})
+	p
+		!= labelTag('Your password', 'password')
+	p
+		!= inputTag({name: 'password', type: 'password', value:'1234'})
+
+	!= inputTag({name: 'redirect', type: 'hidden', value: '/ide'})
+
+	p
+		!= submitTag('Login')
+
+	!= formTagEnd()

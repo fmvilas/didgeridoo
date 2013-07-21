@@ -1,0 +1,23 @@
+ul.breadcrumb
+    li
+       a(href='/') Home
+       span.divider /
+    li
+       != link_to('projects', pathTo.projects)
+       span.divider /
+    li.active
+       a(href='#') Details of project
+
+.page-header
+  h1 Details of project
+
+div(about=path_to.project(project))
+  table.table.table-bordered
+    tbody
+
+
+.well
+  != linkTo('<i class="icon-edit icon-white"></i> Edit', pathTo.edit_project(project), {class: 'btn btn-primary'}) + ' '
+  != linkTo('<i class="icon-remove icon-white"></i> Delete', pathTo.project(project), {class: 'btn btn-danger', method: 'delete', remote: true, jsonp: '(function (u) { location.href = u; })'})
+  span= ' or '
+  != linkTo('Back to index', pathTo.projects)

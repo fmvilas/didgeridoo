@@ -1,0 +1,24 @@
+{
+  "name": "Didgeridoo IDE",
+  "description": "Web-based IDE",
+  "version": "0.0.3",
+  "app": {
+    "urls": [
+      "*://localhost/"
+    ],
+    "launch": {
+      "web_url": "http://localhost:3000/ide",
+      "container": "panel"
+    }
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "permissions": [
+    "clipboardRead",
+    "clipboardWrite",
+    "unlimitedStorage",
+    "notifications"
+  ],
+  "manifest_version": 2
+}

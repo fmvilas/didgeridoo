@@ -1,0 +1,107 @@
+.didgeridoo-tools .ui-accordion-header {
+	background: none;
+	border: none;
+	border-bottom: #e4e3e5 2px solid;
+}
+
+.didgeridoo-tools .ui-accordion-header a {
+	color: #1C140D;
+	font-size: 12px;
+}
+
+.didgeridoo-tools .ui-accordion-header .ui-icon {
+	background-image: url(/images/ui-icons_000000_256x240.png);
+}
+
+.didgeridoo-tools .ui-accordion-content {
+	border: none;
+	padding: 0;
+	clear: both;
+	overflow: auto;
+}
+
+.didgeridoo-tools .ui-accordion-content::-webkit-scrollbar {
+	display: block;
+}
+
+.didgeridoo-tools .didgeridoo-tools-group-header {
+	display: block;
+	height: 30px;
+}
+
+.didgeridoo-tools .didgeridoo-tools-group-header > .text {
+	background-color: #bbb;
+	display: block;
+	float: left;
+	line-height: 100%;
+	padding: 4px 8px;
+	margin-left: 5px;
+	border-radius: 7px;
+	color: #fff;
+	text-shadow: rgba(100,100,100,.75) 0 0 2px;
+}
+
+.didgeridoo-tools .didgeridoo-tools-group-header > .icon {
+	display: block;
+	float: left;
+	width: 20px;
+	height: 20px;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.didgeridoo-tools-group-jquery .didgeridoo-tools-group-header > .icon {
+	background-image: url(images/jquery.png);
+}
+
+.didgeridoo-tools-group-jquery .didgeridoo-tools-group-header > .text {
+	background-color: #086bb2;
+}
+
+.didgeridoo-tools-list {
+	list-style: none;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	-webkit-padding-start: 0;
+}
+
+.didgeridoo-tools-tool a {
+	position: relative;
+	display: block;
+	border: #ccc 1px solid;
+	border-radius: 10px 0 0 10px;
+	background: -webkit-linear-gradient(#f6f6f6 0%, #eee 100%);
+	cursor: pointer;
+	height: 22px;
+	line-height: 20px;
+	padding-left: 20px;
+	margin: 3px 22px 3px 6px;
+	font-family: Arial, Verdana;
+	font-size: 11px;
+	color: #333;
+	letter-spacing: .15em;
+}
+
+.didgeridoo-tools-tool a:hover {
+	background: -webkit-linear-gradient(#fff 0%, #eee 100%);
+}
+
+.didgeridoo-tools-tool a:active {
+	background: -webkit-linear-gradient(#eee 0%, #fff 100%);
+}
+
+.didgeridoo-tools-tool a:after {
+	content: "+";
+	position: absolute;
+	font-size: 16px;
+	right: -19px;
+	top: -1px;
+	height: 20px;
+	padding: 0 9px 0 6px;
+	background: -webkit-linear-gradient(#ddd 0%, #ccc 100%);
+	border-radius: 0 10px 10px 0;
+	border: #ccc 1px solid;
+	color: #555;
+}

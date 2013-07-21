@@ -1,0 +1,14 @@
+{
+	"name": "didgeridoo-designer",
+	"version": "1.0",
+	"entrypoint": "main.js",
+	"files": {
+		"html": {
+			"main": "main.html"
+		},
+		"css": {
+			"main": "main.css"
+		}
+	},
+	"handlerURL": "handler.html"
+}

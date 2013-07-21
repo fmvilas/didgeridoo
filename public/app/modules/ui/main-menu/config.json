@@ -1,0 +1,13 @@
+{
+	"name": "didgeridoo-main-menu",
+	"version": "1.0",
+	"entrypoint": "main.js",
+	"files": {
+		"html": {
+			"main": "main.html"
+		},
+		"css": {
+			"main": "main.css"
+		}
+	}
+}

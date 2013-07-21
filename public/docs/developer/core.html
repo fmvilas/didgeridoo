@@ -1,0 +1,402 @@
+				<div class="span9 content">
+					
+					<a id="introduction"></a>
+					<h1>Core</h1>
+					<p>
+						This page contains information about the Didgeridoo's core.
+					</p>
+
+					<hr>
+					
+					<h2>Introduction</h2>
+					<p>
+						The core is the Didgeridoo main program. It controls all the events in the app, the loading of everything (modules, libraries, templates, etc.) and the communication between modules and/or between modules and libraries. All done through a <a href="index.php?target=core#publicInterface">public interface</a> (a.k.a. Facade).
+					</p>
+					<p>
+						In short, the core controls everything what happens or should happen in the application, and provides utility functions through its <a href="index.php?target=core#publicInterface">public interface</a>.
+					</p>
+					
+					<a id="constants"></a>
+					<h2>Constants</h2>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Constant Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>FILE_SEPARATOR</code></td>
+								<td>The symbol used to separate directories and files in a path. Usually it is <code>'/'</code> (forward slash) for Uhix/Linux systems and <code>'\'</code> (back slash) for Windows systems. Default: <span class="label label-info">/</span></td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+							<tr>
+								<td><code>APP_DIR</code></td>
+								<td>The directory in which the application is. Default: <span class="label label-info">app</span></td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+							<tr>
+								<td><code>MODULES_DIR</code></td>
+								<td>The directory in which the modules are. Relative to APP_DIR. Default: <span class="label label-info">modules</span></td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+							<tr>
+								<td><code>DEPS_FILENAME</code></td>
+								<td>The filename containing the module information (JSON format). Every module should have its own file. Default: <span class="label label-info">deps.json</span></td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+							<tr>
+								<td><code>LIBRARIES_DIR</code></td>
+								<td>The directory in which the libraries are, relative to APP_DIR. Default: <span class="label label-info">libraries</span></td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+							<tr>
+								<td><code>CONFIG_DIR</code></td>
+								<td>The directory, relative to APP_DIR, containing configuration files. Default: <span class="label label-info">config</span></td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+							<tr>
+								<td><code>LIBRARIES_LIST_PATH</code></td>
+								<td>The file (JSON format) containing a list of the libraries that should be opened at the beginning. Relative to APP_DIR. Default: <span class="label label-info">CONFIG_DIR/libraries.list.json</span></td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="libraries"></a>
+					<h2>Managing libraries</h2>
+					<p>
+						For managing libraries you can use the following methods inside the <code>didgeridoo.libraries</code> namespace.
+					</p>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Method Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>load(library <em>[, callback]</em>)</code></td>
+								<td>
+									Loads the specified <span class="label label-info">library</span> and optionally performs a <span class="label label-info">callback</span> action when loading finishes.
+									<br><br>	
+<pre class="prettyprint linenums">didgeridoo.libraries.load('jquery', function($) {
+	console.log('jQuery is loaded!');
+});
+</pre>
+									<h6>Library</h6>
+									A library can be a JavaScript file (e.g. jQuery), a CSS file or even a set of files (e.g. Bootstrap).
+									<br><br> 
+									<span class="label label-warning">IMPORTANT:</span> The library must be specified in the <code>LIBRARIES_LIST_PATH</code> file.
+									<br><br>
+									<h6>Callback</h6>
+									If a function is provided in the <span class="label label-info">callback</span> argument and <span class="label label-info">library</span> refers to a script, the first argument of the callback function will be a reference to the library. Instead, if <span class="label label-info">library</span> is not a script (e.g. a CSS framework), the callback function will not take arguments.
+								</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="modules"></a>
+					<h2>Managing modules</h2>
+					<p>
+						For managing modules you can use the following methods inside the <code>didgeridoo.modules</code> namespace.
+					</p>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Method Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>load(module <em>[, selector][, callback]</em>)</code></td>
+								<td>
+									Loads the specified <span class="label label-info">module</span> and optionally append its content (HTML) to an object or set of objects specified with a CSS-like <span class="label label-info">selector</span>. If provided, performs a <span class="label label-info">callback</span> action when loading finishes.
+									<br><br>	
+<pre class="prettyprint linenums">didgeridoo.modules.load('ui/tools', '#ui-layout-west > .container', function(tools) {
+	console.log('Tools are now ready!');
+});
+</pre>
+									<h6>Module</h6>
+									A module can be an HTML file (e.g. a navigation widget markup), a JavaScript file (e.g. the behavior for a navigation widget), a CSS file (e.g. the style for a navigation widget) or even a bundle of files (e.g. the complete navigation widget with its HTML, CSS and JavaScript).
+									<br><br>
+									<h6>Selector</h6>
+									In case you need to insert some HTML markup because your module has a visual representation, you must specify a CSS-like <span class="label label-info">selector</span> that represents the object or objects in the DOM in which the module will be rendered.
+									<br><br>
+									<h6>Callback</h6>
+									If a function is provided in the <span class="label label-info">callback</span> argument and <span class="label label-info">module</span> contains a script, the first argument of the callback function will be a reference to the module. Instead, if <span class="label label-info">module</span> is not a script (e.g. a HTML or CSS file), the callback function will not take arguments.
+								</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="templates"></a>
+					<h2>Managing templates</h2>
+					<p>
+						This part needs to be defined, developed and documented.
+					</p>
+					
+					<a id="observer"></a>
+					<h2>Observer object</h2>
+					<p>
+						Events are controlled by the core through the <code>didgeridoo.observer</code> namespace, using the Observer (Pub/Sub) pattern and implementing the following methods:
+					</p>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Method Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>subscribe(topic, func)</code></td>
+								<td>
+									Subscribes to a <span class="label label-info">topic</span> and fires the <span class="label label-info">func</span> function when, in the future, someone publishes something in this topic.
+									<br><br>	
+<pre class="prettyprint linenums">var token = didgeridoo.observer.subscribe('window.resize', function(topic, args) {
+	console.log('I know Window was resized because someone published to the topic ' + topic);
+});
+</pre>
+									<h6>Topic</h6>
+									A topic can be anything but always a string. Some people also call it channel so, once you are subscribed, you will receive anything in this channel.
+									<br><br>
+									<h6>Func</h6>
+									This is the function called when someone performs a <code>didgeridoo.observer.publish(topic, args)</code> call and it will receive the published topic and arguments.
+									<br><br>
+									<h6>Return</h6>
+									This method returns a token to handle this subscribe call.
+								</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+							<tr>
+								<td><code>unsubscribe(token)</code></td>
+								<td>
+									It does the opposite action of the <code>didgeridoo.observer.subscribe</code> method. When unsubscribing from a topic, you inmediately stop receiving its <code>didgeridoo.observer.publish</code> calls.  
+									<br><br>	
+<pre class="prettyprint linenums">var token = didgeridoo.observer.subscribe('window.resize', function(topic, args) {
+	console.log('I know Window was resized because someone published to the topic ' + topic);
+});
+
+didgeridoo.observer.publish('window.resize', evt);
+//Log: I know Window was resized because someone published to the topic window.resize
+
+didgeridoo.observer.unsubscribe(token);
+
+didgeridoo.observer.publish('window.resize', evt);
+//Nothing will be logged now
+</pre>
+									<h6>Token</h6>
+									It is a value returned from <code>didgeridoo.observer.subscribe(topic, func)</code> method that represents the binding of topic with func.
+									<br><br>
+									<h6>Return</h6>
+									This method returns the token if it is found in the token list. Otherwise it returns false.
+								</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+							<tr>
+								<td><code>publish(topic, args)</code></td>
+								<td>
+									Publishes <span class="label label-info">args</span> arguments to the specified <span class="label label-info">topic</span>, so the subscribers will be notified and will receive the arguments.   
+									<br><br>	
+<pre class="prettyprint linenums">didgeridoo.observer.subscribe('window.resize', function(topic, args) {
+	console.log('I am function 1 and I heard window was resized.');
+});
+
+didgeridoo.observer.subscribe('window.resize', function(topic, args) {
+	console.log('I am function 2 and I also heard window was resized.');
+});
+
+didgeridoo.observer.publish('window.resize', evt);
+
+//Output:
+//I am function 2 and I also heard window was resized.
+//I am function 1 and I heard window was resized.
+</pre>
+									<h6>Topic</h6>
+									The topic (a.k.a. channel) in which the <span class="label label-info">args</span> will be published. <span class="label label-info">topic</span> and <span class="label label-info">args</span> will be forwarded to the subscriber functions.
+									<br><br>
+									<h6>Args</h6>
+									Arguments to be forwarded to the subscriber functions.
+									<br><br>
+									<h6>Return</h6>
+									If the topic exists returns true, otherwise returns false.
+								</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="exceptions"></a>
+					<h2>Exceptions</h2>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Exception Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>AssertException</code></td>
+								<td>
+									This exception occurs when trying to assert a condition and it is false. It is fired by the <code>assert(condition, message)</code> private utility function implemented in the core.
+									<br><br>	
+<pre class="prettyprint linenums">assert(arguments.length > 0, 'Not enough parameters');
+
+//if there is no arguments, an AssertException will occur and the Logger will register it.
+</pre>
+									All exceptions are registered via the <code>Logger</code> object.
+								</td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="logger"></a>
+					<h2>Logger object</h2>
+					<p>
+						The <code>didgeridoo.logger</code> is intended to register all information messages, warnings and errors. The reason for don't use the browser's <code>console</code> object is because, using the <code>logger</code> will record all events with the exact date and time (including milliseconds) and it will give control to the application to manage them.
+						<br><br>
+						The following are the available methods:
+					</p>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Method Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>info(message)</code></td>
+								<td>It will register an information message.</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+							<tr>
+								<td><code>warn(message)</code></td>
+								<td>It will register a warning message.</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+							<tr>
+								<td><code>error(message)</code></td>
+								<td>It will register an error message.</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+							<tr>
+								<td><code>getList([filter])</code></td>
+								<td>
+									This returns an array with a list of messages that were registered. If <span class="label label-info">filter</span> is not specified, it will return the full list of messages.
+									<br><br>
+									<pre class="prettyprint linenums">var list = didgeridoo.logger.getList({
+	warn: true,
+	error: true
+});
+
+//list variable will contain a list of all warnings and errors but not info messages.  
+</pre>
+									<h6>Filter</h6>
+									The <span class="label label-info">filter</span> argument is an object containing the next 3 modifiers:
+									<br><br>
+									<ul>
+										<li><code>info</code>: true to return info messages.</li>
+										<li><code>warn</code>: true to return warning messages.</li>
+										<li><code>error</code>: true to return error messages.</li>
+									</ul>
+									<br>
+									If anything is provided to <span class="label label-info">filter</span>, all modifiers will be false by default and extended with the supplied filter. Otherwise, if <span class="label label-info">filter</span> is not supplied, all modifiers will be true by default.
+								</td>
+								<td><span class="label label-success">Public</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="utils"></a>
+					<h2>Utility functions</h2>
+					<p>
+						These functions are a various-purposes bundle for helping during the development.
+					</p>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Function Name</th>
+									<th>Description</th>
+									<th class="scope"></th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>assert(condition, message)</code></td>
+								<td>This function is used to check a <span class="label label-info">condition</span> is true. If not it will generate an AssertException with the supplied <span class="label label-info">message</span>.</td>
+								<td><span class="label label-important">Private</span></td>
+							</tr>
+						</table>
+					</p>
+					
+					<a id="publicInterface"></a>
+					<h2>Public interface</h2>
+					<p>
+						This is the Didgeridoo public interface and comprehends the <span class="label label-info">Facade</span> to deal with the Core.
+					</p>
+					<h6>Methods</h6>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Method Name</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>modules.load()</code></td>
+								<td>A reference to the <span class="label label-info">_loadModule()</span> method.</td>
+							</tr>
+							<tr>
+								<td><code>libraries.load()</code></td>
+								<td>A reference to the <span class="label label-info">_loadLibrary()</span> method.</td>
+							</tr>
+							<tr>
+								<td><code>logger</code></td>
+								<td>A reference to the Logger object.</td>
+							</tr>
+							<tr>
+								<td><code>observer.publish()</code></td>
+								<td>A reference to the <span class="label label-info">publish()</span> method.</td>
+							</tr>
+							<tr>
+								<td><code>observer.subscribe()</code></td>
+								<td>A reference to the <span class="label label-info">subscribe()</span> method.</td>
+							</tr>
+							<tr>
+								<td><code>observer.unsubscribe()</code></td>
+								<td>A reference to the <span class="label label-info">unsubscribe()</span> method.</td>
+							</tr>
+						</table>
+					</p>
+					<h6>Attributes</h6>
+					<p>
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>Attribute Name</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tr>
+								<td><code>FILE_SEPARATOR</code></td>
+								<td>A reference to the <span class="label label-info">FILE_SEPARATOR</span> constant.</td>
+							</tr>
+						</table>
+					</p>
+				</div><!--/span-->

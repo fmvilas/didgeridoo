@@ -1,0 +1,16 @@
+{
+    "name": "didgeridoo-project-explorer",
+    "version": "1.0",
+    "title": "Project Files",
+    "iconClass": "didgeridoo-project-explorer-icon",
+    "iconActiveClass": "didgeridoo-project-explorer-icon-active",
+    "entrypoint": "main.js",
+    "files": {
+        "html": {
+            "main": "main.html"
+        },
+        "css": {
+            "main": "main.css"
+        }
+    }
+}
