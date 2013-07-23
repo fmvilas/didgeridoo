@@ -1,15 +1,21 @@
 "use strict";
-define(['require', 'text!./main.html', 'modules/ui/layout/layout'], function(require, html) {
+define([
+    'require',
+    'text!./main.html',
+    'action',
+    'event',
+    'layout',
+    'user',
+    'modules/user/user'
+], function(require, html) {
 
-    var moduleName = 'MainMenu',
-    cssFile = require.toUrl('./main.css');
+    var moduleName = 'MainMenu';
     
     var MainMenu = function() {
         
         //Render the content
         var _renderTo = function(selector, callback) {
             
-            var assert = didgeridoo.utils.assert;
             assert(typeof selector === 'string' ||
                 typeof selector === 'object',
                 'Error in module ' + moduleName + '.\n' +
@@ -24,17 +30,13 @@ define(['require', 'text!./main.html', 'modules/ui/layout/layout'], function(req
             //Add HTML
             $(selector).append(html);
             
-            // !!! Styles are loaded in the minified version
-            // Load styles
-            //didgeridoo.utils.loadCSS(cssFile);
-            
             var $mainMenu = $('#didgeridoo-main-menu', selector);
             
             //Load User Info
-            $('#didgeridoo-main-menu-user').tmpl({
-                name: "Flan",
-                avatar: "http://gravatar.com/avatar/f3bad9b06a1b0512c5c837f28dddd985?s=37&d=mm"
-            }).appendTo($mainMenu);
+            didgeridoo.api.user.get(function(u) {
+                if( u.name.length > 0 ) $('.didgeridoo-main-menu-user-name').html(u.name);
+                if( u.avatarURL.length > 0 ) $('.didgeridoo-main-menu-user-avatar').attr('src', u.avatarURL);
+            });
             
             
             //Mouseover and Mouseout (with jquery $obj.hover)
@@ -103,14 +105,11 @@ define(['require', 'text!./main.html', 'modules/ui/layout/layout'], function(req
                     $parent.css('display', 'none');
                     $mainMenu.data('open', false);
                     
-                    didgeridoo.observer.publish(moduleName + '.item.select', {
+                    didgeridoo.api.event.publish(moduleName + '.item.select', {
                         action: $this.data('action'),
                         args: $this.data('args')
                     });
-                }
-                
-                return false;
-	
+                }	
             });
 		
             $('ul li', $mainMenu).each(function() {
@@ -125,16 +124,16 @@ define(['require', 'text!./main.html', 'modules/ui/layout/layout'], function(req
             
             if(typeof callback !== 'undefined') callback.call();
             
-            didgeridoo.observer.publish(moduleName + '.load');
-            didgeridoo.observer.publish(moduleName + '.render');
+            didgeridoo.api.event.publish(moduleName + '.load');
+            didgeridoo.api.event.publish(moduleName + '.render');
         }; //end of _renderTo
         
         
         
         //Manage clicked menu items
-        didgeridoo.observer.subscribe(moduleName + '.item.select', function(topic, data) {
+        didgeridoo.api.event.subscribe(moduleName + '.item.select', function(topic, data) {
             
-            didgeridoo.Action.do(data.action, data.args);
+            didgeridoo.api.action.do(data.action, data.args);
 
         });
         

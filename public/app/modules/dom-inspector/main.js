@@ -1,8 +1,7 @@
 "use strict";
-define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html) {
+define(['require', 'text!./main.html', 'event', 'autoGrowInput'], function(require, html) {
 
-	var moduleName = 'DOMInspector',
-		cssFile = require.toUrl('./main.css');
+	var moduleName = 'DOMInspector';
 
 
 	var DOMInspector = function() {
@@ -380,7 +379,6 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
 
 
 		var _renderTo = function(selector, callback) {
-			var assert = didgeridoo.utils.assert;
 				assert(	typeof selector === 'string' ||
 						typeof selector === 'object',
 						'Error in module ' + moduleName + '.\n' +
@@ -416,7 +414,7 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
 			    	}
 		    	}
 
-		    	didgeridoo.observer.publish('didgeridoo-document.document.change', null);
+		    	didgeridoo.api.event.publish('didgeridoo-document.document.change', null);
 		    });
 
 		    $('#dom-inspector').on('keydown', '.propName', function(ev) {
@@ -445,7 +443,7 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
 
 		    			$valueInput.focus();
 
-		    			didgeridoo.observer.publish('didgeridoo-document.document.change', null);
+		    			didgeridoo.api.event.publish('didgeridoo-document.document.change', null);
 
 		    			ev.preventDefault();
 		    		break;
@@ -480,7 +478,7 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
 				    	}
 
 		    			$nameInput.focus();
-		    			didgeridoo.observer.publish('didgeridoo-document.document.change', null);
+		    			didgeridoo.api.event.publish('didgeridoo-document.document.change', null);
 
 		    			ev.preventDefault();
 		    		break;
@@ -521,7 +519,7 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
 				$nameInput.focus();
 		    });
 
-    		didgeridoo.observer.subscribe('didgeridoo-designer.element.select', function(topic, el) {
+    		didgeridoo.api.event.subscribe('didgeridoo-designer.element.select', function(topic, el) {
     			if(typeof el !== 'undefined') {
     				_update( el );
     			} else {
@@ -529,14 +527,12 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
     			}
     		});
 
-		    didgeridoo.observer.publish(moduleName + '.rendered');
+		    didgeridoo.api.event.publish(moduleName + '.rendered');
 
 		    if(callback) {
 				callback();
 			}
 
-
-			didgeridoo.utils.loadCSS(cssFile);
 		};
 
 
@@ -595,7 +591,7 @@ define(['require', 'text!./main.html', 'autoGrowInput'], function(require, html)
 		};
 
 
-		didgeridoo.observer.subscribe('Designer.element.select', function(topic, el) {
+		didgeridoo.api.event.subscribe('Designer.element.select', function(topic, el) {
 			_update(el);
 		});
 

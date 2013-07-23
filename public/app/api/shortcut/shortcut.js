@@ -3,13 +3,13 @@
 /**
  * Shortcut API
  *
- * @module api/shortcut
+ * @module api/shortcut/shortcut
  */
-define(['core', 'underscore'], function() {
+define(['core', 'action', 'underscore'], function() {
 	
 	createNS('didgeridoo.api.shortcut');
 
-	didgeridoo.shortcut.map = [];
+	didgeridoo.api.shortcut.map = [];
 
 	var arrSpecialKeys = ['Cmd', 'Alt', 'AltGr', 'Ctrl', 'Shift'];
 
@@ -47,7 +47,7 @@ define(['core', 'underscore'], function() {
 	};
 	
 	didgeridoo.api.shortcut.exists = function(key) {
-		return _.any(didgeridoo.shortcut.map, function(r) {
+		return _.any(didgeridoo.api.shortcut.map, function(r) {
 			return r.key === key;
 		});
 	};
@@ -57,11 +57,11 @@ define(['core', 'underscore'], function() {
 			//throw ShortcutNoActionError
 		}
 
-		if( !didgeridoo.shortcut.exists(strKey) ) {
+		if( !didgeridoo.api.shortcut.exists(strKey) ) {
 			var key = _strToKey(strKey);
 
 			key.action = action;
-			didgeridoo.shortcut.map.push( key );
+			didgeridoo.api.shortcut.map.push( key );
 
 			window.addEventListener('keydown', function(e) {
 				var special = true;
@@ -78,7 +78,7 @@ define(['core', 'underscore'], function() {
 					&& special === true) {
 					e.preventDefault();
 					if( typeof key.action === 'string' ) {
-						didgeridoo.Action.do(key.action);
+						didgeridoo.api.action.do(key.action);
 					} else if( typeof key.action === 'function' ) {
 						key.action.apply(this);
 					}

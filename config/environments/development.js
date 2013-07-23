@@ -4,7 +4,6 @@ module.exports = function (compound) {
     var app = compound.app;
 
     app.configure('development', function () {
-    	app.set('view engine', 'jade');
         app.enable('log actions');
         app.enable('env info');
         app.enable('watch');

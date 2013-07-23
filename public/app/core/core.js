@@ -7,8 +7,9 @@
  */
 define(function() {
 
-    var global = window,
-        didgeridoo = {};
+    var global = window;
+
+    global.didgeridoo = {};
 
     global.createNS = function(ns) {
         if( typeof ns === 'string' ) {
@@ -19,14 +20,14 @@ define(function() {
 
                 if( !existNS(ns) ) {
 
-                    var parent = parts[0];
+                    var parent = global[parts[0]];
 
-                    for( var i=1; exist && i < parts.length; i++ ) {
+                    for( var i=1; i < parts.length; i++ ) {
                         if( typeof parent[parts[i]] === 'undefined' ) {
                             parent[parts[i]] = {};
                         }
                         
-                        parent = parts[i];
+                        parent = parent[parts[i]];
                     }
 
                 }
@@ -49,13 +50,13 @@ define(function() {
 
             if( parts.length > 1 ) {
 
-                var parent = parts[0];
+                var parent = global[parts[0]];
 
                 for( var i=1; exist && i < parts.length; i++ ) {
                     if( typeof parent[parts[i]] === 'undefined' ) {
                         exist = false;
                     } else {
-                        parent = parts[i];
+                        parent = parent[parts[i]];
                     }
                 }
 
@@ -73,40 +74,91 @@ define(function() {
     /**
      * @global
      *
-     * Error while creating namespace
-     * @param {string} [message] Message to display
+     * Error while creating namespace.
+     * @param {string} [message] Message to display.
      */
     global.NSCreateError = function(message) {
         this.name = 'NSCreateError';
         this.message = typeof message !== 'undefined' ? this.name + ': ' + message : this.name + ' occurred!';
-    }
+    };
     global.NSCreateError.prototype = new Error();
-    global.NSCreateError.prototype.constructor = global.NSCreateError;
+    global.NSCreateError.prototype.constructor = NSCreateError;
         
 
 
 
     /**
-     * Assert
+     * @global
+     *
+     * Throws an error with a message when the passed expression evaluates to false.
+     * @param {boolean} expression The expression to evaluate.
+     * @param {string} [message] (Optional) Message to show on error. Default: 'AssertConditionError ocurred!'.
+     * @param {Error} [ErrorHandler] (Optional) Kind of error to raise. Must inherit from Error class. Default: {@link AssertConditionError}.
      */
-    global.assert = function(exp, message) {
+    global.assert = function(exp) {
+        var message,
+            ErrorHandler;
+
+        if( arguments.length < 2 ) {
+            throw new AssertError('Too few parameters on <assert> call.');
+        } else if( arguments.length === 2 ) {
+            if( typeof arguments[1] !== 'string' ) {
+                throw new AssertError('Message must be a string.');
+            }
+
+            message = arguments[1];
+            ErrorHandler = AssertConditionError;
+        } else if( arguments.length === 3 ) {
+            if( typeof arguments[1] !== 'string' ) {
+                throw new AssertError('Message must be a string.');
+            }
+            
+            if( typeof arguments[2] === 'undefined' || arguments[2] === null ||
+                typeof arguments[2].prototype !== 'object' ||
+                !(arguments[2].prototype instanceof Error) ) {
+                    throw new AssertError('ErrorHandler type must be Error.');
+            }
+
+            message = arguments[1];
+            ErrorHandler = arguments[2];
+        } else {
+            throw new AssertError('Too much parameters on <assert> call.');
+        }
+
+        if( typeof exp !== 'boolean' ) throw new AssertError('Expression must be a boolean.');
+
         if (!exp) {
-            throw new AssertError(message);
+            throw new ErrorHandler(message);
         }
     };
 
     /**
      * @global
      *
-     * Error while executing assert function
-     * @param {string} [message] Message to display
+     * Error raised when the passed expression to {@link assert} evaluates to false.
+     * @param {string} [message] Message to display.
+     */
+    global.AssertConditionError = function(message) {
+        this.name = 'AssertConditionError';
+        this.message = typeof message !== 'undefined' ? this.name + ': ' + message : this.name + ' occurred!';
+    };
+    global.AssertConditionError.prototype = new Error();
+    global.AssertConditionError.prototype.constructor = AssertConditionError;
+
+    /**
+     * @global
+     *
+     * Error while executing assert function.
+     * @param {string} [message] Message to display.
      */
     global.AssertError = function(message) {
         this.name = 'AssertError';
         this.message = typeof message !== 'undefined' ? this.name + ': ' + message : this.name + ' occurred!';
-    }
+    };
     global.AssertError.prototype = new Error();
-    global.AssertError.prototype.constructor = global.AssertError;
+    global.AssertError.prototype.constructor = AssertError;
+
+
 
     return didgeridoo;
 });

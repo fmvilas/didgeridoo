@@ -1,33 +1,27 @@
 "use strict";
+
 define([
     'require',
     'text!./layout.html',
     'core',
-    'libraries/jqueryui/tabs',
-    'libraries/jqueryui/sortable',
-    'libraries/jqueryui/resizable'
-    ], function(require, html) {
+    'action',
+    'event',
+    'libs/jqueryui/tabs',
+    'libs/jqueryui/sortable',
+    'libs/jqueryui/resizable'
+], function(require, html) {
     
     //Add HTML
     document.body.innerHTML += html;
     
-    // !!! Styles are loaded in the minified version
-    // Load styles
-    //var cssFile = require.toUrl('./layout.css');
-    //didgeridoo.utils.loadCSS(cssFile);
-    
-    
-    
-    
-    
     var moduleName = 'Layout',
-    $northPanel = $('.ui-layout-north'),
-    $sidebar = $('.ui-layout-sidebar'),
-    $sidebarNav = $('.ui-layout-sidebar-nav', $sidebar),
-    $sidebarContainer = $('.container', $sidebar),
-    $centerPanel = $('.ui-layout-center'),
-    $centerPanelTabs = $('.ui-layout-center-tab-list'),
-    sidebarIsResizing = false;
+        $northPanel = $('.ui-layout-north'),
+        $sidebar = $('.ui-layout-sidebar'),
+        $sidebarNav = $('.ui-layout-sidebar-nav', $sidebar),
+        $sidebarContainer = $('.container', $sidebar),
+        $centerPanel = $('.ui-layout-center'),
+        $centerPanelTabs = $('.ui-layout-center-tab-list'),
+        sidebarIsResizing = false;
     
     
     //Create Tabs on the center panel
@@ -35,7 +29,7 @@ define([
         tabTemplate: '<li><a href="#{href}">#{label}</a> <span rel="#{href}" class="ui-icon ui-icon-close">Remove Tab</span></li>',
         show: function(ev, ui) {
             didgeridoo.documents.currentDocument = didgeridoo.documents[ui.panel.id];
-            didgeridoo.observer.publish(moduleName + '.tab.show', ui.panel.id);
+            didgeridoo.api.event.publish(moduleName + '.tab.show', ui.panel.id);
         }
     });
     
@@ -48,7 +42,7 @@ define([
     //Create a new empty file on double click the tabs bar
     $centerPanelTabs.dblclick(function(ev) {
         if( ev.target === this ) {
-            didgeridoo.Action.do('FileNew');
+            didgeridoo.api.action.do('FileNew');
         }
     });
     
@@ -81,7 +75,7 @@ define([
 		
     $(window).resize(function (evt) {
         waitForFinalWindowResizeEvent(function(){
-            didgeridoo.observer.publish('window.resize', evt);
+            didgeridoo.api.event.publish('window.resize', evt);
         }, 500, "some unique string", evt);
     });
     // end of the debounce trick
@@ -91,20 +85,20 @@ define([
     //Events for layout
     //
     
-    didgeridoo.observer.subscribe('layout-sidebar.resized', function(topics, ui) {
+    didgeridoo.api.event.subscribe('layout-sidebar.resized', function(topics, ui) {
         layoutSidebarResize(ui);
     });
 		
-    didgeridoo.observer.subscribe('layout-sidebar.resizing', function(topics, ui) {
+    didgeridoo.api.event.subscribe('layout-sidebar.resizing', function(topics, ui) {
         layoutSidebarResize(ui);
     });
         
-    didgeridoo.observer.subscribe('window.resize', function(topics, evt) {
-        didgeridoo.observer.publish('layout.resized', evt);
+    didgeridoo.api.event.subscribe('window.resize', function(topics, evt) {
+        didgeridoo.api.event.publish('layout.resized', evt);
     });
 		
-    didgeridoo.observer.publish(moduleName + '.load');
-    didgeridoo.observer.publish(moduleName + '.render');
+    didgeridoo.api.event.publish(moduleName + '.load');
+    didgeridoo.api.event.publish(moduleName + '.render');
     
     
     
@@ -168,8 +162,8 @@ define([
                 .addClass('ui-layout-sidebar-expanded');
             }
             
-            didgeridoo.observer.publish('layout-sidebar.resized', null);
-            didgeridoo.observer.publish('layout.resize', null);
+            didgeridoo.api.event.publish('layout-sidebar.resized', null);
+            didgeridoo.api.event.publish('layout.resize', null);
             
             sidebarIsExpanded = !sidebarIsExpanded;
         });
@@ -227,7 +221,7 @@ define([
                 _openSidebar();
             }
             
-            didgeridoo.observer.publish('layout.sidebar.panel.selected', {
+            didgeridoo.api.event.publish('layout.sidebar.panel.selected', {
                 'name': name,
                 'icon': $icon.get(0),
                 'el': $( '.didgeridoo-panel-window-content', $panel.get(0) ).get(0)
@@ -253,8 +247,8 @@ define([
             
             $('.ui-layout-sidebar-nav-icon-collapse').removeClass('ui-layout-sidebar-nav-icon-collapse-expanded');
             
-            didgeridoo.observer.publish('layout-sidebar.resized', null);
-            didgeridoo.observer.publish('layout.resize', null);
+            didgeridoo.api.event.publish('layout-sidebar.resized', null);
+            didgeridoo.api.event.publish('layout.resize', null);
         };
         
         
@@ -290,13 +284,13 @@ define([
         minWidth: 200,
         stop: function(evt, ui) {
             $sidebar.data('width', $sidebar.css('width'));
-            didgeridoo.observer.publish('layout-sidebar.resized', ui);
-            didgeridoo.observer.publish('layout.resized', ui);
+            didgeridoo.api.event.publish('layout-sidebar.resized', ui);
+            didgeridoo.api.event.publish('layout.resized', ui);
             sidebarIsResizing = false;
         },
         resize: function(evt, ui) {
-            didgeridoo.observer.publish('layout-sidebar.resizing', ui);
-            didgeridoo.observer.publish('layout.resizing', ui);
+            didgeridoo.api.event.publish('layout-sidebar.resizing', ui);
+            didgeridoo.api.event.publish('layout.resizing', ui);
             sidebarIsResizing = true;
         }
     });

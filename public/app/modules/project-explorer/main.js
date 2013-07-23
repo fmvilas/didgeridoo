@@ -1,12 +1,19 @@
 "use strict";
-define(['require', 'text!./main.html', 'modules/ui/layout/layout', 'moment', 'dynatree'], function(require, html) {
+define([
+    'require',
+    'text!./main.html',
+    'action',
+    'event',
+    'layout',
+    'dynatree'
+], function(require, html) {
 
-    var moduleName = 'didgeridoo-project-explorer';
+    var moduleName = 'ProjectExplorer';
         
     var ProjectExplorer = function() {
         
         var $tree,
-        isRendered = false;
+            isRendered = false;
 
         var _compareFunction = function(a, b) {
             if( (a.data.isFolder && b.data.isFolder) || (!a.data.isFolder && !b.data.isFolder) ) {
@@ -63,17 +70,17 @@ define(['require', 'text!./main.html', 'modules/ui/layout/layout', 'moment', 'dy
                     if( node.data.isFolder ) {
                         node.expand(!node.isExpanded());
                     } else {
-                        didgeridoo.Action.do('FileOpen', node.data.key);
+                        didgeridoo.api.action.do('FileOpen', node.data.key);
                     }
                 }
             }).dynatree('getRoot').sortChildren(_compareFunction, true);
             
             isRendered = true;
 
-            didgeridoo.observer.publish(moduleName + '.rendered');
+            didgeridoo.api.event.publish(moduleName + '.rendered');
         };
         
-        didgeridoo.observer.subscribe('layout.sidebar.panel.selected', function(topic, info) {
+        didgeridoo.api.event.subscribe('layout.sidebar.panel.selected', function(topic, info) {
             if(info.name === moduleName) {
                 _render(info.el);
             }

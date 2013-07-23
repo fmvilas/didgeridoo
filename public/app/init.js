@@ -1,30 +1,27 @@
 define([
     'core',
-    'actions',
+    'layout',
+    'action',
+    'event',
     'shortcut',
-    'codemirror_script'
-], function(core) {
+    'util/system',
+    'modules/file/file'
+], function(core, layout) {
 
     didgeridoo.currentProject = '5196534c9c253bdbb1d00fb6';
     didgeridoo.authenticityToken = $('meta[name="csrf-token"]').attr('content');
 
-    // Load dialog modules
-
-    require(['modules/ui/dialog/dialogs']);
-
     // Constructs the Didgeridoo User Interface.
-    require(['modules/ui/layout/layout'], function(layout) {
-
-        require(['modules/ui/main-menu/main'], function(MainMenu) {
-            new MainMenu().renderTo( layout.getNorthPanel() );
-        });
-
-        layout.getSideBar().addPanel('modules/ui/dom-inspector/main');
-        layout.getSideBar().addPanel('modules/ui/project-explorer/main');
-
-        didgeridoo.Action.do('FileOpen', '/index.html');
+    require(['modules/main-menu/main'], function(MainMenu) {
+        new MainMenu().renderTo( layout.getNorthPanel() );
     });
 
+    layout.getSideBar().addPanel('modules/dom-inspector/main');
+    layout.getSideBar().addPanel('modules/project-explorer/main');
+
+    didgeridoo.api.action.do('FileOpen', '/index.html');
+
+    // Show confirmation before exiting
     window.onbeforeunload = function() {
         return "Leaving Didgeridoo this way may cause an information loss.";
     };

@@ -5,7 +5,11 @@ require.config({
         text: 'libs/require/plugins/text',
         //Didgeridoo modules and libs
         core: 'core/core',
-        shortcut: 'modules/shortcut/shortcut',
+        action: 'api/action/action',
+        shortcut: 'api/shortcut/shortcut',
+        'event': 'api/event/event',
+        'util/system': 'api/util/system/system',
+        user: 'api/user/user',
         jquery: 'libs/jquery/jquery.min',
         'jquery-cookie': 'libs/jquery-cookie/jquery.cookie',
         dynatree: 'libs/dynatree/jquery.dynatree-1.2.4',
@@ -13,7 +17,8 @@ require.config({
         bootstrap: 'libs/bootstrap/bootstrap',
         'jquery-tmpl': 'libs/jquerytemplates/jquery.tmpl.min',
         autoGrowInput: 'libs/autoGrowInput/autoGrowInput',
-        codemirror_script: 'libs/codemirror/lib/codemirror'
+        codemirror_script: 'libs/codemirror/lib/codemirror',
+        layout: 'modules/layout/layout'
     },
     shim: {
         'core': {

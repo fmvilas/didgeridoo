@@ -8,12 +8,17 @@ define(function() {
 	    $dialog.attr('id', id)
 	    		.appendTo('body')
 	    		.html(content)
-	    		.modal();
+	    		.modal({
+	    			show: false
+	    		});
 
 	    return {
 	    	id: id,
 	    	hide: function() {
 	    		$dialog.modal('hide');
+	    	},
+	    	show: function() {
+	    		$dialog.modal('show');
 	    	}
 	    };
     };

@@ -1,16 +1,13 @@
 "use strict";
-define(['require', 'text!./main.html'], function(require, html) {
+define(['require', 'text!./main.html', 'event'], function(require, html) {
 
     var moduleName = 'Designer',
-    cssFile = require.toUrl('./main.css'),
-    handlerURL = require.toUrl('./handler.html');
+        handlerURL = require.toUrl('./handler.html');
 
 
     var Designer = function(documentId) {
         if ( !(this instanceof Designer) )
             return new Designer();
-
-        var assert = didgeridoo.utils.assert;
 
         assert( typeof documentId === 'string' &&
             typeof didgeridoo.documents[documentId] === 'object',
@@ -571,7 +568,7 @@ define(['require', 'text!./main.html'], function(require, html) {
                 }
 
                 if(!silent) {
-                    didgeridoo.observer.publish(moduleName + '.element.select', $(selectedElement).data('originalElement'));
+                    didgeridoo.api.event.publish(moduleName + '.element.select', $(selectedElement).data('originalElement'));
                 }
 
             }; //end of _selectElement()
@@ -579,7 +576,7 @@ define(['require', 'text!./main.html'], function(require, html) {
 
 
             var _addElement = function(html, target) {
-                var assert = didgeridoo.utils.assert;
+                
 
                 assert(	typeof target === 'undefined' ||
                     target instanceof content.window.HTMLElement,
@@ -878,7 +875,7 @@ define(['require', 'text!./main.html'], function(require, html) {
                         Wireframe.update(false);
                     }
 
-                    didgeridoo.observer.publish('didgeridoo-designer.element.change', $originalEl);
+                    didgeridoo.api.event.publish('didgeridoo-designer.element.change', $originalEl);
 
                     return $originalEl;
                 });
@@ -1016,13 +1013,13 @@ define(['require', 'text!./main.html'], function(require, html) {
 
         var URL;
 
-        didgeridoo.observer.subscribe('didgeridoo-document.document.change', function(topics, id) {
+        didgeridoo.api.event.subscribe('didgeridoo-document.document.change', function(topics, id) {
             if(	handler.loaded && content.loaded ) {
                 Wireframe.update(true);
             }
         });
 
-        didgeridoo.observer.subscribe('didgeridoo-layout.tab.show', function(topics, id) {
+        didgeridoo.api.event.subscribe('didgeridoo-layout.tab.show', function(topics, id) {
             if(	handler.loaded && content.loaded &&
                 $container &&
                 $container.parents('#' + id).length === 1 ) {
@@ -1031,7 +1028,7 @@ define(['require', 'text!./main.html'], function(require, html) {
             }
         });
 
-        didgeridoo.observer.subscribe('didgeridoo-document.document.load, didgeridoo-layout.tab.show', function(topics, id) {
+        didgeridoo.api.event.subscribe('didgeridoo-document.document.load, didgeridoo-layout.tab.show', function(topics, id) {
             if( didgeridoo.documents[id].getState() === 'loaded' &&
                 $container &&
                 $container.parents('#' + id).length === 1 ) {
@@ -1040,36 +1037,36 @@ define(['require', 'text!./main.html'], function(require, html) {
             }
         });
 
-        didgeridoo.observer.subscribe('didgeridoo-tools.tool.select', function(topics, html) {
+        didgeridoo.api.event.subscribe('didgeridoo-tools.tool.select', function(topics, html) {
             Interaction.element.add(html);
         });
 
-        didgeridoo.observer.subscribe(moduleName + '.content.loaded', function(topics, evt) {
+        didgeridoo.api.event.subscribe(moduleName + '.content.loaded', function(topics, evt) {
             _contentLoaded();
         });
 
-        didgeridoo.observer.subscribe('layout.resize', function(topics, ui) {
+        didgeridoo.api.event.subscribe('layout.resize', function(topics, ui) {
             Wireframe.update(false);
         });
 
-        didgeridoo.observer.subscribe(moduleName + '.handle.loaded', function(topics, evt) {
+        didgeridoo.api.event.subscribe(moduleName + '.handle.loaded', function(topics, evt) {
             _handlerLoaded();
         });
 
-        didgeridoo.observer.subscribe('layout.resizing', function(topics, ui) {
+        didgeridoo.api.event.subscribe('layout.resizing', function(topics, ui) {
             $blocker.css('display', 'block');
         });
 
-        didgeridoo.observer.subscribe(moduleName + '.content.resized', function(topics, evt) {
-            didgeridoo.observer.publish('layout.resized', evt);
+        didgeridoo.api.event.subscribe(moduleName + '.content.resized', function(topics, evt) {
+            didgeridoo.api.event.publish('layout.resized', evt);
         });
 
-        didgeridoo.observer.subscribe(moduleName + '.handle.resized', function(topics, evt) {
-            didgeridoo.observer.publish('layout.resized', evt);
+        didgeridoo.api.event.subscribe(moduleName + '.handle.resized', function(topics, evt) {
+            didgeridoo.api.event.publish('layout.resized', evt);
         });
 
-        didgeridoo.observer.subscribe('window.resize', function(topics, evt) {
-            didgeridoo.observer.publish('layout.resize', evt);
+        didgeridoo.api.event.subscribe('window.resize', function(topics, evt) {
+            didgeridoo.api.event.publish('layout.resize', evt);
         });
 
 
@@ -1130,7 +1127,7 @@ define(['require', 'text!./main.html'], function(require, html) {
         };
 
         var _renderTo = function(selector, callback) {
-            var assert = didgeridoo.utils.assert;
+            
             assert(	typeof selector === 'string' ||
                 typeof selector === 'object',
                 'Error in module Designer.\n' +
@@ -1150,11 +1147,11 @@ define(['require', 'text!./main.html'], function(require, html) {
             $handle = $('.didgeridoo-designer-handle', selector);
 
             $content.resize(function(ev) {
-                didgeridoo.observer.publish(moduleName + '.content.resized', ev);
+                didgeridoo.api.event.publish(moduleName + '.content.resized', ev);
             });
 
             $handle.resize(function(ev) {
-                didgeridoo.observer.publish(moduleName + '.handle.resized', ev);
+                didgeridoo.api.event.publish(moduleName + '.handle.resized', ev);
             });
 
             $handle[0].addEventListener('load', function(evt) {
@@ -1165,13 +1162,11 @@ define(['require', 'text!./main.html'], function(require, html) {
                 _contentLoaded(evt);
             });
 
-            didgeridoo.observer.publish(moduleName + '.rendered', instance);
+            didgeridoo.api.event.publish(moduleName + '.rendered', instance);
 
             if(callback) {
                 callback();
             }
-
-            didgeridoo.utils.loadCSS(cssFile);
 
             return this;
         };

@@ -1,22 +1,25 @@
 "use strict";
-define(['require',
-'text!./Document.html',
-'modules/ui/layout/layout'], function(require, html) {
+define([
+	'require',
+	'text!./Document.html',
+	'shortcut',
+	'event',
+	'layout'
+], function(require, html) {
 
 	var moduleName = 'Document',
-		cssFile = require.toUrl('./Document.css'),
 		typeClass,
 		mode;
 
-	didgeridoo.shortcut.register('Alt+W', 'FileClose');
-	didgeridoo.shortcut.register('Alt+Shift+W', 'FileCloseAll');
+	didgeridoo.api.shortcut.register('Alt+W', 'FileClose');
+	didgeridoo.api.shortcut.register('Alt+Shift+W', 'FileCloseAll');
 
-	if( didgeridoo.system.OS === 'Mac' ) {
-		didgeridoo.shortcut.register('Cmd+S', 'FileSave');
-		didgeridoo.shortcut.register('Cmd+Shift+S', 'FileSaveAsDialog');
+	if( didgeridoo.api.util.system.OS === 'Mac' ) {
+		didgeridoo.api.shortcut.register('Cmd+S', 'FileSave');
+		didgeridoo.api.shortcut.register('Cmd+Shift+S', 'FileSaveAs');
 	} else {
-		didgeridoo.shortcut.register('Ctrl+S', 'FileSave');
-		didgeridoo.shortcut.register('Ctrl+Shift+S', 'FileSaveAsDialog');
+		didgeridoo.api.shortcut.register('Ctrl+S', 'FileSave');
+		didgeridoo.api.shortcut.register('Ctrl+Shift+S', 'FileSaveAs');
 	}
 
 	var Document = function(type) {
@@ -68,7 +71,7 @@ define(['require',
         }
 
 		//Events
-		didgeridoo.observer.subscribe('Document.change', function(documentId) {
+		didgeridoo.api.event.subscribe('Document.change', function(documentId) {
 			var doc = didgeridoo.documents[documentId];
 
 			if( doc ) {
@@ -81,7 +84,7 @@ define(['require',
 		});
 
 		this.close = function() {
-			didgeridoo.Action.do('FileClose', _id);
+			didgeridoo.api.action.do('FileClose', _id);
 		};
 
 		this.getId = function() {
@@ -95,7 +98,7 @@ define(['require',
 		this.setState = function(newState) {
 			var _oldState = _state;
 			_state = newState;
-			didgeridoo.observer.publish('Document.state.change', {
+			didgeridoo.api.event.publish('Document.state.change', {
 				oldState: _oldState,
 				newState: newState
 			});
@@ -146,7 +149,7 @@ define(['require',
 	Document.prototype.save = function(url) {
         if( typeof url === 'undefined' ) {
             if( typeof (url = this.getURL()) === 'undefined' ) {
-                didgeridoo.Action.do('FileSaveAsDialog');
+                didgeridoo.api.action.do('FileSaveAsDialog');
                 return;
             }
         }
@@ -184,9 +187,6 @@ define(['require',
             title: _title
         } ).appendTo( didgeridoo.layout.getCenterPanel() );
 
-        //Load CSS
-        didgeridoo.utils.loadCSS(cssFile);
-
         //Create new tab
         $(didgeridoo.layout.getCenterPanel()).tabs( 'add', '#' + _id, _title );
 
@@ -199,19 +199,19 @@ define(['require',
         $docWrapper.addClass(typeClass);
         
         if( mode === 'text/html' ) {
-        	require(['modules/ui/designer/main'], function(Designer) {
+        	require(['modules/designer/main'], function(Designer) {
 	            _this.setDesigner( new Designer(_id) );
 	                
 	            $(didgeridoo.layout.getCenterPanel()).tabs( 'select', '#' + _id );
 	            _this.getDesigner().renderTo($designerContainer[0], function() {
 	                _this.getDesigner().loadURL(url, function() {
-	                    didgeridoo.observer.publish(moduleName + '.document.load', _id);                        
+	                    didgeridoo.api.event.publish(moduleName + '.document.load', _id);                        
 	                });
 	            });
 	        });
         }
         
-        require(['modules/ui/codeview/main'], function(CodeView) {
+        require(['modules/codeview/main'], function(CodeView) {
             _this.setCodeView( new CodeView(_id) );
                 
             $(didgeridoo.layout.getCenterPanel()).tabs( 'select', '#' + _id );
@@ -236,7 +236,7 @@ define(['require',
 
         if( typeof callback === 'function') callback(_this);
         
-        didgeridoo.observer.publish(moduleName + '.rendered');
+        didgeridoo.api.event.publish(moduleName + '.rendered');
     };
 
     var _getModeFromURL = function(url) {

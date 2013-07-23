@@ -1,7 +1,9 @@
 "use strict";
 
-/*
- * util/System API
+/**
+ * System API
+ *
+ * @module api/util/system/system
  */
 define(['core'], function() {
 
@@ -38,5 +40,8 @@ define(['core'], function() {
         info.OS = 'Unknown';
         return info;
     })();
+
+
+    return didgeridoo.api.util.system;
 
 });

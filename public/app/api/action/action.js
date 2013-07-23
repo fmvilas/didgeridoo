@@ -1,7 +1,9 @@
 "use strict";
 
-/*
+/**
  * Action API
+ *
+ * @module api/action/action
  */
 define(['core'], function() {
 
@@ -58,5 +60,8 @@ define(['core'], function() {
         };
 
     })();
+
+
+    return didgeridoo.api.action;
 
 });

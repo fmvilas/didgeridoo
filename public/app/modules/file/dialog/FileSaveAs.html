@@ -1,0 +1,85 @@
+<div class="modal-body">
+	<input id="SaveAs-file-name" type="text" class="input-block-level">
+	<div class="row-fluid">
+		<div class="span3 SaveAs-box">
+			<div id="SaveAs-tree-wrapper"></div>
+		</div>
+		<div class="span9 SaveAs-box light-scrollbar">
+			<table id="SaveAs-file-list">
+				<thead>
+					<tr>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody id="SaveAs-file-list-body">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+</div>
+<div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+	<button class="btn btn-primary disabled">Save</button>
+</div>
+
+<style type="text/css">
+	.modal-body .input-block-level {
+		border:2px solid #eee;
+		border-radius: 3px;
+	}
+
+	.SaveAs-box {
+		position:relative;
+		height:200px;
+		border:2px solid #eee;
+		border-radius: 3px;
+		overflow: auto;
+	}
+	
+	#SaveAs-tree-wrapper {
+		height: 100%;
+	}
+
+	#SaveAs-tree-wrapper ul {
+		border: none;
+	}
+	
+	#SaveAs-file-list {
+		width: 100%;
+	}
+
+	#SaveAs-file-list thead tr {
+		height: 35px;
+		color: #444;
+		text-align: left;
+		border-bottom: #1ABC9C 2px solid;
+	}
+
+	#SaveAs-file-list tbody tr {
+		height: 35px;
+		border-bottom: #eee 1px solid;	
+	}
+
+	#SaveAs-file-list tbody tr:hover {
+		background-color: #eee;
+	}
+
+	#SaveAs-file-list tbody tr.selected {
+		background-color: #1ABC9C;
+	}
+
+	#SaveAs-file-list tbody tr.selected td {
+		color: #fff;
+	}
+
+	#SaveAs-file-list thead th,
+	#SaveAs-file-list tbody td {
+		padding-left: 10px;
+		cursor: default;
+	}
+
+	#SaveAs-file-list i {
+		margin-right: 10px;
+	}
+</style>

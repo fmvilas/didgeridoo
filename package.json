@@ -1,14 +1,12 @@
 {
   "name": "didgeridoo-compound",
-  "version": "0.0.1-2",
+  "version": "0.0.1",
   "engines": [
     "node >= 0.8.0"
   ],
   "main": "server.js",
   "dependencies": {
-    "ejs": "*",
-    "ejs-ext": "latest",
-    "jade": "*",
+    "jade": "0.30.0",
     "jade-ext": "latest",
     "express": "~3.x",
     "compound": "latest",

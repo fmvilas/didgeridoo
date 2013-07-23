@@ -1,23 +1,18 @@
 "use strict";
-define(['require', 'text!./main.html', 'libraries/codemirror/codemirror'], function(require, html) {
+define(['require', 'text!./main.html', 'event', 'libs/codemirror/codemirror'], function(require, html) {
 	
-	var moduleName = 'CodeView',
-		cssFile = require.toUrl('./main.css');
-	
+	var moduleName = 'CodeView';	
 	
 	var CodeView = function(documentId, documentType) {
 		//It forces to instantiate the class
       	if ( !(this instanceof CodeView) )
       		return new CodeView();
-
-      	didgeridoo.utils.loadCSS(cssFile);
       	
       	var _instance = this,
       		_rendered = false,
       		_editor;
 		
 		var _renderTo = function(selector, callback) {
-			var assert = didgeridoo.utils.assert;
 			assert(	typeof selector === 'string' ||
 					typeof selector === 'object',
 					'Error in module CodeView.\n' +
@@ -45,11 +40,11 @@ define(['require', 'text!./main.html', 'libraries/codemirror/codemirror'], funct
 			});
 
 			_editor.on('change', function() {
-				didgeridoo.observer.publish(moduleName + '.change', documentId);
+				didgeridoo.api.event.publish(moduleName + '.change', documentId);
 			});
 			
 			_rendered = true;
-			didgeridoo.observer.publish(moduleName + '.rendered', _instance);
+			didgeridoo.api.event.publish(moduleName + '.rendered', _instance);
 			
 			if(callback) {
 				callback.call(this);
@@ -61,7 +56,7 @@ define(['require', 'text!./main.html', 'libraries/codemirror/codemirror'], funct
 		
 		
 		var _load = function(url, mode, callback) {
-			var assert = didgeridoo.utils.assert;
+			
 			assert(	_rendered === true,
 					'Error in module CodeView.\n' +
 					'CodeView._load(url[, mode[, callback]]): The module must be rendered before performing any operation.');
@@ -100,7 +95,7 @@ define(['require', 'text!./main.html', 'libraries/codemirror/codemirror'], funct
 					// -----------------------------------------------------
 					// It could be something like:
 					//
-					// require(['modules/ui/error/401'], function(error) {
+					// require(['modules/error/401'], function(error) {
 					// 		error.showLoginForm();
 					// });
 					alert('Error');

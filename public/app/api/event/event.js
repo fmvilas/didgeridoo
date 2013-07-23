@@ -9,7 +9,7 @@
  * http://jsfiddle.net/LxPrq/
  * Licensed under the GPL
  *
- * @module api/event
+ * @module api/event/event
  */
 define(['core'], function() {
 
@@ -89,5 +89,8 @@ define(['core'], function() {
         };
 
     })();
+
+
+    return didgeridoo.api.event;
 
 });
