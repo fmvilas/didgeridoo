@@ -39,9 +39,9 @@ action('create', function () {
 
 action('show', function () {
     this.title = 'User show';
-    switch(params.format) {
+    switch(req.query.format) {
         case "json":
-            send({code: 200, data: this.user});
+            send(apiUser());
             break;
         default:
             render();
@@ -107,6 +107,11 @@ action('destroy', function () {
 });
 
 function loadUser() {
+    // id === 0 means it referes to the current logged user
+    if( params.id === '0' && req.session.user.id ) {
+        params.id = req.session.user.id;
+    }
+
     User.find(params.id, function (err, user) {
         if (err || !user) {
             if (!err && !user && params.format === 'json') {
@@ -118,4 +123,15 @@ function loadUser() {
             next();
         }
     }.bind(this));
+}
+
+function apiUser() {
+    var u = req.session.user;
+
+    return {
+        id: u.id,
+        name: u.name || '',
+        avatarURL: u.avatarURL || '',
+        preferences: u.preferences || {}
+    };
 }

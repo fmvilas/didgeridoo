@@ -25,6 +25,8 @@ var User = describe('User', function() {
 	property('name');
 	property('email');
 	property('password');
+	property('avatarURL', String, {default: ''});
+	property('preferences', Object, {default: {}});
 
 	set('restPath', pathTo.users);
 });

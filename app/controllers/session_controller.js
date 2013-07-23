@@ -23,7 +23,7 @@ action('logon', function() {
             result.length > 0 &&
             params.email === result[0].email &&
             params.password === result[0].password ) {
-                req.session.user = params.email;
+                req.session.user = result[0];
                 redirect( params.redirect );
         } else {
             send(500);
