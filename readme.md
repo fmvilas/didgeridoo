@@ -31,8 +31,8 @@ Didgeridoo is based on a stack of edge technologies, NodeJS ([CompoundJS](compou
 		# Back to the initial terminal window (let's call it Window 1):
 		mongo
 		# Now in mongo…
-		> db.addUser({user: "admin", pwd: "1234", roles: []})
 		> use didgeridoo
+		> db.addUser({user: "admin", pwd: "1234", roles: []})
 		> db.User.save({ "_id" : ObjectId("5196534c9c253bdbb1d00fb6"), "name" : "Test Project", "owner" : ObjectId("51964caa9c253bdbb1d00fb4") })
 		> db.Project.save({ "_id" : ObjectId("5196534c9c253bdbb1d00fb6"), "name" : "Test Project", "owner" : ObjectId("51964caa9c253bdbb1d00fb4") })
 		> exit
