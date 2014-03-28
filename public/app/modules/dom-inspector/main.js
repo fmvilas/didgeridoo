@@ -1,5 +1,10 @@
 "use strict";
-define(['require', 'text!./main.html', 'event', 'autoGrowInput'], function(require, html) {
+define([
+'require',
+'text!./main.html',
+'API.Event',
+'autogrow'
+], function(require, html) {
 
 	var moduleName = 'DOMInspector';
 
@@ -280,6 +285,7 @@ define(['require', 'text!./main.html', 'event', 'autoGrowInput'], function(requi
 		    var appliedRules = {},
 		    	$element = $(el);
 
+		    // TODO: it will fail when a object is removed from Designer view because el will be undefined
 		    ownerDocument = el.ownerDocument;
 
 		    for ( var x = 0; x < ownerDocument.styleSheets.length; x++ ) {
@@ -562,9 +568,14 @@ define(['require', 'text!./main.html', 'event', 'autoGrowInput'], function(requi
 			for(var i=0; i < cssFiles.length; i++) {
 				var filename = cssFiles[i];
 
-				filename = filename.substr(filename.lastIndexOf('/') + 1);
-				if(filename === '') { filename = cssFiles[i]; }
-				html += '<h3><a href="' + cssFiles[i] + '" target="_blank">' + filename + '</a></h3>';
+				if(filename === 'null') {
+					filename = 'Style Tag';
+					html += '<h3><a>' + filename + '</a></h3>';
+				} else {
+					filename = filename.substr(filename.lastIndexOf('/') + 1);
+					html += '<h3><a href="' + cssFiles[i] + '" target="_blank">' + filename + '</a></h3>';
+				}
+				
 
 				var rules = Object.getOwnPropertyNames( CSSRules[cssFiles[i]] );
 				

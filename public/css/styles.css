@@ -1,14 +1,8 @@
-/* jQuery UI */
-@import url('../app/libs/jqueryui/css/jquery-ui.all.css');
-
-/* Twitter Bootstrap */
-@import url('../app/libs/bootstrap/css/bootstrap.css');
-
-/* Flat UI */
-@import url('../app/libs/flat-ui/css/flat-ui.css');
-
 /* Common Styles */
 @import url('./common.css');
+
+/* Font Awesome */
+@import url('../app/components/font-awesome/css/font-awesome.css');
 
 /* Icons */
 @import url('./icons.css');

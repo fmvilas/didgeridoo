@@ -9,7 +9,7 @@ define(function() {
 
     var global = window;
 
-    global.didgeridoo = {};
+    global.didgeridoo = global.didgeridoo || {};
 
     global.createNS = function(ns) {
         if( typeof ns === 'string' ) {

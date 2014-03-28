@@ -20,15 +20,17 @@ define(['core', 'jquery'], function() {
 			cb,
 			userid;
 
-		if( arguments.length === 1 ) {
+		if( arguments.length === 0 ) {
+			throw new didgeridoo.api.user.UserGetError('Too few parameters on <didgeridoo.api.user.get> call.');
+		} else if( arguments.length === 1 ) {
 			assert(typeof arguments[0] === 'function', 'Parameter callback must be a function.', didgeridoo.api.user.UserGetError);
 
 			userid = '0';
 			url = '/u/0'; // Zero belongs to the current user.
 			cb = arguments[0];
 		} else if( arguments.length === 2 ) {
-			assert(typeof userid === 'string', 'Parameter userid must be a string.', didgeridoo.api.user.UserGetError);
-			assert(userid.trim().length > 0, 'Invalid userid parameter.', didgeridoo.api.user.UserGetError);
+			assert(typeof arguments[0] === 'string', 'Parameter userid must be a string.', didgeridoo.api.user.UserGetError);
+			assert(arguments[0].trim().length > 0, 'Invalid userid parameter.', didgeridoo.api.user.UserGetError);
 			assert(typeof arguments[1] === 'function', 'Parameter callback must be a function.', didgeridoo.api.user.UserGetError);
 			userid = arguments[0];
 			url = '/u/' + userid;
@@ -37,6 +39,7 @@ define(['core', 'jquery'], function() {
 			throw new didgeridoo.api.user.UserGetError('Too much parameters on <didgeridoo.api.user.get> call.');
 		}
 
+
 		$.ajax({
 			url: url,
 			type: 'GET',
@@ -44,6 +47,7 @@ define(['core', 'jquery'], function() {
 				format: 'json'
 			},
 			success: function(User) {
+				didgeridoo.api.user.currentUser = User;
 				cb.apply(this, [User]);
 			},
 			error: function() {

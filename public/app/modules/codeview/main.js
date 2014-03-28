@@ -1,5 +1,10 @@
 "use strict";
-define(['require', 'text!./main.html', 'event', 'libs/codemirror/codemirror'], function(require, html) {
+define([
+'require',
+'text!./main.html',
+'API.Event',
+'codemirror'
+], function(require, html) {
 	
 	var moduleName = 'CodeView';	
 	
@@ -27,9 +32,9 @@ define(['require', 'text!./main.html', 'event', 'libs/codemirror/codemirror'], f
 			var _id = documentId + '-codeview',
 				APP_DIR = didgeridoo.APP_DIR + '/';
 			
-			$.tmpl( html, {
+			$(selector).append(_.template(html, {
 				id: _id
-			} ).appendTo( selector );
+			}));
 			
 			_editor = CodeMirror.fromTextArea( $('#' + _id)[0], {
 				mode: documentType || 'text/plain',
@@ -111,7 +116,7 @@ define(['require', 'text!./main.html', 'event', 'libs/codemirror/codemirror'], f
 			}
 
 			$.ajax({
-				url: '/p/' + didgeridoo.currentProject + '/f' + url,
+				url: '/p/' + didgeridoo.api.project.currentProject.id + '/f' + url,
 				type: 'POST',
 				data: {
 					body: _editor.getValue(),

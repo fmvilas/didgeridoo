@@ -1,28 +1,27 @@
-#!/usr/bin/env node
+var express = require('express'),
+	mongoose = require('mongoose'),
+	fs = require('fs'),
+	config = require('./config/config');
 
-/**
- * Server module exports method returning new instance of app.
- *
- * @param {Object} params - compound/express webserver initialization params.
- * @returns CompoundJS powered express webserver
- */
-var app = module.exports = function getServerInstance(params) {
-    params = params || {};
-    // specify current dir as default root of server
-    params.root = params.root || __dirname;
-    return require('compound').createServer(params);
-};
+mongoose.connect(config.db);
+var db = mongoose.connection;
+db.on('error', function () {
+  throw new Error('unable to connect to database at ' + config.db);
+});
 
-if (!module.parent) {
-    var port = process.env.PORT || 3000;
-    var host = process.env.HOST || '0.0.0.0';
+var modelsPath = __dirname + '/app/models';
+fs.readdirSync(modelsPath).forEach(function (file) {
+  if (file.indexOf('.js') >= 0) {
+    require(modelsPath + '/' + file);
+  }
+});
 
-    var server = app();
-    server.listen(port, host, function () {
-        console.log(
-            'Compound server listening on %s:%d within %s environment',
-            host, port, server.set('env')
-        );
-    });
-}
+var server = express();
 
+require('./config/express')(server, config);
+require('./config/routes')(server);
+
+
+server.listen(config.port);
+
+console.log("Server listening on port %d", config.port);

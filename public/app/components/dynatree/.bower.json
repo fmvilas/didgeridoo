@@ -1,0 +1,18 @@
+{
+  "name": "dynatree",
+  "version": "1.2.4",
+  "main": [
+    "dist/jquery.dynatree.min.js",
+    "src/skin/ui.dynatree.css"
+  ],
+  "homepage": "https://github.com/spekkionu/dynatree",
+  "_release": "1.2.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.2.4",
+    "commit": "9dc049c5e9c5b27e78a8e754df17950c6b8ff3db"
+  },
+  "_source": "git://github.com/spekkionu/dynatree.git",
+  "_target": "~1.2.*",
+  "_originalSource": "dynatree"
+}

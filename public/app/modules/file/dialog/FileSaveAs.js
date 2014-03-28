@@ -1,5 +1,5 @@
 "use strict";
-define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'action'], function(require, Dialog, html) {
+define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'API.Action'], function(require, Dialog, html) {
 
     var modal,
         $tree,
@@ -19,7 +19,7 @@ define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'action'],
             	nodeIcon: 'dynatree-icon file-type-icon'
             },
             initAjax: {
-                url: '/p/' + didgeridoo.currentProject + '/f',
+                url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
                 data: {
                 	list: 'folders'
                 }
@@ -34,14 +34,14 @@ define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'action'],
             },
             onLazyRead: function(node){
                 node.appendAjax({
-                    url: '/p/' + didgeridoo.currentProject + '/f',
+                    url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
                     data: {
                     	list: 'folders',
                         directory: node.data.key
                     },
                     success: function() {
                         if(node && node.tree) {
-                            var n = node.tree.getNodeByKey('/'+didgeridoo.currentProject+'/');
+                            var n = node.tree.getNodeByKey('/'+didgeridoo.api.project.currentProject.id+'/');
 
                             if(n) n.sortChildren(_compareFunction, true);
                         }
@@ -60,7 +60,7 @@ define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'action'],
             },
             onActivate: function(node) {
             	$.ajax({
-            		url: '/p/' + didgeridoo.currentProject + '/f',
+            		url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
             		data: {
             			directory: node.data.key,
             			list: 'files'

@@ -1,0 +1,38 @@
+{
+  "name": "didgeridoo",
+  "version": "0.4.0",
+  "homepage": "https://github.com/fmvilas/didgeridoo",
+  "authors": [
+    "Francisco <fmvilas@gmail.com>"
+  ],
+  "description": "Your favourite IDE in the browser",
+  "keywords": [
+    "web",
+    "IDE",
+    "browser",
+    "cloud"
+  ],
+  "dependencies": {
+    "codemirror": "~3.19.*",
+    "dynatree": "~1.2.*",
+    "font-awesome": "~4.*.*",
+    "jquery": "~2.*.*",
+    "jquery.cookie": "~1.*.*",
+    "jquery.ui": "~1.*.*",
+    "q": "0.9.*",
+    "requirejs": "~2.*.*",
+    "requirejs-text": "~2.*.*",
+    "underscore": "~1.*.*"
+  },
+  "devDependencies": {
+
+  },
+  "license": "GPL v3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "test",
+    "tests"
+  ]
+}

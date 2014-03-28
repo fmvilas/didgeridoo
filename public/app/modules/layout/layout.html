@@ -1,27 +1,25 @@
 <div class="ui-layout-north collapsed"></div>
 
-<div class="ui-layout-sidebar ui-layout-sidebar-collapsed ui-layout-aside light-scrollbar">
-        <div class="ui-layout-sidebar-nav">
-            <a class="ui-layout-sidebar-nav-icon-collapse" title="Expand Sidebar"></a>
-        </div>
-        <div class="container light-scrollbar">
-            
-        </div>
+<div class="ui-layout-center" role="tabpanel">
+    <div style="background:white;position:absolute;left:0;top:0;right:0;bottom:0;z-index: 0;">
+        <h1 style="position: absolute; left:50%; top: 50%; margin-left: -280px; margin-top: -40px; font-size: 80px;">Splash Screen</h1>
     </div>
+</div>
 
-<div class="ui-layout-center">
-	<ul class="ui-layout-center-tab-list unselectable" unselectable="on"></ul>
-	
-	<div style="background:white;position:absolute;left:0;top:0;right:0;bottom:0;z-index: 0;">
-		<h1 style="position: absolute; left:50%; top: 50%; margin-left: -280px; margin-top: -40px; font-size: 80px;">Splash Screen</h1>
-	</div>
+<div class="ui-layout-sidebar ui-layout-sidebar-collapsed ui-layout-aside light-scrollbar">
+    <div class="ui-layout-sidebar-nav">
+        <a class="ui-layout-sidebar-nav-icon-collapse" title="Expand Sidebar"></a>
+    </div>
+    <div class="container light-scrollbar">
+        
+    </div>
 </div>
 
 <!--<div class="ui-layout-east ui-layout-aside light-scrollbar"><div class="container"></div></div>-->
 
-<script id="didgeridoo-panel-window-template" type="text/x-jquery-tmpl">
-    <div id="${id}" class="${classes} didgeridoo-panel-window">
-        <div class="didgeridoo-panel-window-header"><div class="didgeridoo-panel-window-header-title">${title}</div><a class="didgeridoo-panel-window-close"></a></div>
+<script id="didgeridoo-panel-window-template" type="text/template">
+    <div id="<%=id%>" class="<%=classes%> didgeridoo-panel-window">
+        <div class="didgeridoo-panel-window-header"><div class="didgeridoo-panel-window-header-title"><%=title%></div><a class="didgeridoo-panel-window-close"></a></div>
         <div class="didgeridoo-panel-window-content light-scrollbar"></div>
     </div>
 </script>
@@ -53,7 +51,7 @@
     }
 
     .light-scrollbar::-webkit-scrollbar-track {
-        background: #E4E3E5;
+        background: #555;
     }
 
     .light-scrollbar::-webkit-scrollbar-thumb {
@@ -70,7 +68,7 @@
         top: 0;
         right: 0;
         height: 26px;
-        background: #1ABC9C;
+        background: #272822;
         margin: 10px 0 0 0;
         padding: 0 10px;
         overflow: hidden;
@@ -125,13 +123,11 @@
         top: 36px;
         right: 0;
         bottom: 0;
-        background: #fff;
+        background: #272822;
         overflow: auto;
-        color: #000;
-        padding: 1px;
-        border-top: #16A085 2px solid;
-        border-left: #16A085 2px solid;
-        border-radius: 5px 0 0 0;
+        color: #fff;
+        border-top: #333 1px solid;
+        border-left: #333 1px solid;
         z-index: 1;
     }
 
@@ -139,25 +135,25 @@
         display: none;
     }
 
-    .ui-layout-north,
-    .ui-layout-north.collapsed:hover {
+    .ui-layout-north {
         position: fixed;
         left: 0;
         top: 0;
         width: 100%;
         height: 40px;
-        background: #000;
-        border-bottom: #16A085 2px solid;
+        background: #272822;
+        border-bottom: #333 1px solid;
         border-right: none;
         border-radius: 0;
         overflow: visible;
+        z-index: 100;
     }
 
     .ui-layout-north.collapsed {
-        width: 50px;
+        background: transparent;
+        width: 48px;
         overflow: hidden;
-        border-right: #16A085 2px solid;
-        border-radius: 0 0 25px 0;
+        border-bottom: none;
         z-index: 100;
     }
 
@@ -173,9 +169,9 @@
     }
 
     .ui-layout-sidebar {
-        background: #1ABC9C;
+        background: #272822;
         left: 0;
-        border-right: #16A085 2px solid;
+        border-right: #333 2px solid;
         z-index: 20;
         overflow: hidden;
     }
@@ -190,7 +186,7 @@
     }
 
     .ui-layout-sidebar-opened .container {
-        border-right: #16A085 2px solid;
+        border-right: #333 2px solid;
         overflow: auto;
     }
 
@@ -204,7 +200,7 @@
         top: 40px;
         width: 50px;
         bottom: 0;
-        background: #1ABC9C;
+        background: #272822;
         z-index: 10;
     }
 
@@ -221,10 +217,8 @@
     }
 
     .ui-layout-sidebar-nav-icon.active {
-        background-color: #16A085;
-        width: 42px;
-        margin-left: 8px;
-        border-radius: 4px 0 0 4px;
+        width: 48px;
+        border-right: #16A085 4px solid;
     }
 
     .ui-layout-sidebar-nav-icon-hidden {
@@ -238,20 +232,11 @@
         width: 32px;
         height: 32px;    
         border-bottom: #ddd 1px solid;
+        -webkit-transition: none;
     }
 
     .ui-layout-sidebar-nav-icon-collapse-expanded {
         background-position-y: -40px;
-    }
-
-    .ui-layout-sidebar .icon-active {
-        background-color: #ddd;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        -o-border-radius: 5px;
-        -khtml-border-radius: 5px;
-        -ms-border-radius: 5px;
-        border-radius: 5px;
     }
 
     .ui-layout-sidebar .container {
@@ -261,7 +246,7 @@
         top: 0;
         right: 0;
         bottom: 0;
-        background: #1ABC9C;
+        background: #272822;
         z-index: 0;
     }
 
@@ -275,35 +260,45 @@
         font-size: 11px;
         padding: 0;
         border:none;
+        border-radius: 0;
         overflow: auto;
         z-index: 10;
     }
 
-    .ui-layout-center .ui-layout-center-tab-list {
-        position: relative;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-        border-top: none;
-        padding-top: 0;
-        height: auto;
-        z-index: 10;
+
+    /* jQuery UI styles override */
+
+    .ui-resizable-e {
+        width: 4px;
+        right: 0;
     }
 
-    .ui-layout-center .ui-layout-center-tab-list li {
-        width: 110px;
+    .ui-resizable-e:hover {
+        border-right: #555 2px solid;
+    }
+
+    .ui-resizable-w {
+        left: 0;
+    }
+
+    .ui-resizable-w:hover {
+        border-left: #555 2px solid;
+    }
+
+    .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+        margin-bottom: 9px;
     }
 
     .ui-layout-center-tab-list li.ui-state-default {
         background: #fff;
         border: none;
-        border-radius: 5px;
+        border-radius: 0;
         margin: 3px 0 10px 7px;
         opacity: .7;
     }
 
     .ui-layout-center-tab-list li.ui-state-default a {
-        color: #000;
+        color: #272822;
     }
 
     .ui-layout-center-tab-list li.ui-state-active,
@@ -321,52 +316,5 @@
 
     .ui-layout-center-tab-list li.ui-state-hover a {
         color: #fff;
-    }
-
-    .ui-layout-center .ui-layout-center-tab-list li,
-    .ui-layout-center .ui-layout-center-tab-list li a { 
-        cursor: default;
-    }
-
-    .ui-layout-center .ui-layout-center-tab-list li a {
-        display: block;
-        width: 80px;
-        text-overflow:ellipsis;
-        overflow: hidden;
-    }
-
-    .ui-layout-center-tab-list li .ui-icon {
-        float: right;
-        margin: 4px 5px 2px 0;
-        cursor: default;
-    }
-
-    .ui-layout-east {
-        right: 0;
-        border-left: #E4E3E5 2px solid;
-    }
-
-
-    /* jQuery UI styles override */
-
-    .ui-resizable-e {
-        width: 4px;
-        right: 0;
-    }
-
-    .ui-resizable-e:hover {
-        border-right: #16A085 2px solid;
-    }
-
-    .ui-resizable-w {
-        left: 0;
-    }
-
-    .ui-resizable-w:hover {
-        border-left: #E4E3E5 2px solid;
-    }
-
-    .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
-        margin-bottom: 9px;
     }
 </style>

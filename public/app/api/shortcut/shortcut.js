@@ -5,7 +5,7 @@
  *
  * @module api/shortcut/shortcut
  */
-define(['core', 'action', 'underscore'], function() {
+define(['core', 'API.Action', 'underscore'], function() {
 	
 	createNS('didgeridoo.api.shortcut');
 

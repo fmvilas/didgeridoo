@@ -1,12 +1,15 @@
-define(['action', 'event', 'layout'], function() {
+define([
+'API.Action',
+'API.Event',
+'layout'
+], function() {
 
 	didgeridoo.api.action.register('FileClose', function(documentId) {
 		if( typeof documentId === 'undefined' ) {
-			//current document
-			var $selectedTab = $('.ui-state-active a', didgeridoo.layout.getCenterPanel());
+			var selectedTab = didgeridoo.layout.centerPanelTabs.tabListElement.querySelector('.active').querySelector('[role=tab]');
 
-			if( $selectedTab.length > 0 ) {
-				documentId = $selectedTab[0].hash.substring(1);
+			if( selectedTab ) {
+				documentId = selectedTab.getAttribute('rel');
 			} else {
 				return;
 			}
@@ -17,7 +20,7 @@ define(['action', 'event', 'layout'], function() {
 		delete didgeridoo.documents[documentId];
 		didgeridoo.documents.currentDocument = null;
 		
-        $(didgeridoo.layout.getCenterPanel()).tabs( 'remove', '#' + documentId );
+        didgeridoo.layout.centerPanelTabs.remove(documentId);
 		
         didgeridoo.api.event.publish('document.close', documentId);
 	});

@@ -1,20 +1,24 @@
-exports.routes = function (map) {
+module.exports = function(app){
+
+    var helpers = require('../app/controllers/helpers'),
+        csrf = helpers.csrf,
+        authRequired = helpers.authRequired,
+        loadUser = helpers.loadUser,
+        routes = require('./route_table');
+
     
-    // IDE
-    map.get('/ide', 'ide#index');
 
-    //Session
-    map.get('/login', 'session#login');
-    map.post('/login', 'session#logon');
-    map.get('/logout', 'session#logout');
+	//ide route
+	var ide = require('../app/controllers/ide');
+	app.get(routes.ide, authRequired, csrf, ide.index);
 
-    // User
-    map.resources('users', {path: 'u'});
+    //user-related routes
+    var user = require('../app/controllers/user');
+    app.get(routes.user.login, csrf, user.login);
+    app.post(routes.user.login, csrf, user.logon);
+    app.get(routes.user.logout, csrf, user.logout);
+    app.get(routes.user.show, csrf, loadUser, user.show);
 
-    // Project
-    map.resources('projects', {path: 'p'});
-    map.get('/p/:id/f', 'projects#files');
-    map.get('/p/:id/f/*', 'projects#fileOpen');
-    map.post('/p/:id/f/*', 'projects#fileSave');
+    return routes;
 
 };

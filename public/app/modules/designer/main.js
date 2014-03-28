@@ -1,5 +1,9 @@
 "use strict";
-define(['require', 'text!./main.html', 'event'], function(require, html) {
+define([
+'require',
+'text!./main.html',
+'API.Event'
+], function(require, html) {
 
     var moduleName = 'Designer',
         handlerURL = require.toUrl('./handler.html');
@@ -31,22 +35,9 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
             html: null,
             body: null,
             scrollLeft: 0,
-            scrollTop: 0,
-            resizers: {
-                /* The Wrapper */
-                wrapper: null,
-                /* Border */
-                border: null,
-                /* Middle East*/
-                me: null,
-                /* South East*/
-                se: null,
-                /* South Middle*/
-                sm: null
-            }
+            scrollTop: 0
         },
         selectedElement = null,
-        resizing = false,
         editing = false,
         styles = [
         /*'background-attachment',
@@ -331,16 +322,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                     box.addEventListener('scroll', function(ev) {
                         $(ev.target).data('originalElement').scrollTop = ev.target.scrollTop;
                         $(ev.target).data('originalElement').scrollLeft = ev.target.scrollLeft;
-                        if(selectedElement !== null) {
-                            if(resizing) {
-                                _updateHandlerOf(selectedElement);
-                                Interaction.element.startResizing(selectedElement);
-                            } else {
-                                _updateHandlerOf(selectedElement);
-                                Interaction.element.startResizing(selectedElement);
-                                Interaction.resizers.display('none');
-                            }
-                        }
                     });
                     $(box).data('originalElement', element);
 
@@ -428,9 +409,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                 handler.body = handler.document.body;
                 handler.html = handler.document.getElementsByTagName('HTML')[0];
 
-                /* Create resizers DOM nodes */
-                Interaction.resizers.create();
-
                 /* Associate top parent elements with their own equivalent on
                    the original document. */
                 $(handler.window).data('originalElement', content.window);
@@ -457,13 +435,9 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                 /* If it's the first time we're creating the Wireframe... */
                 if(!previouslyExists) {
 
-                    /* Hide the resizers */
-                    Interaction.resizers.display('none');
-
                     /* Event Handlers */
                     handler.document.addEventListener('copy', Interaction.events.copy);
                     handler.document.addEventListener('click', Interaction.events.click);
-                    handler.document.addEventListener('dblclick', Interaction.events.dblclick);
                     handler.document.addEventListener('selectstart', Interaction.events.selectStart);
                     handler.document.addEventListener('keydown', Interaction.events.keydown);
                     handler.document.addEventListener('scroll', Interaction.events.scroll);
@@ -491,12 +465,7 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                         aux = _findHandlerFor(aux);
 
                         if( aux && aux.length > 0 ) {
-                            if(resizing) {
-                                Interaction.element.select(aux[0], true, true);
-                                Interaction.element.startResizing(selectedElement);
-                            } else {
-                                Interaction.element.select(aux[0], true, true);
-                            }
+                            Interaction.element.select(aux[0], true, true);
                         }
                     }
 
@@ -534,7 +503,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
             var _selectElement = function(element, force, silent) {
 
                 if( force || (element !== null && (element.classList.contains('element') || element.className === 'element' )) ) {
-                    _displayResizers('none');
                     $('.element', handler.body).removeClass('element-hover').css('box-shadow', 'none');
                     element.classList.add('element-hover');
 
@@ -561,7 +529,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                     element.style.boxShadow += ', orange -' + marginLeft + ' ' + marginBottom + ' 0';
 
                     selectedElement = element;
-                    resizing = false;
                     console.dir(element);
                 } else if( element === handler.body || element === handler.html ) {
                     selectedElement = element;
@@ -605,7 +572,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                     selectedElement = null;
                     Wireframe.create(true);
                     _selectElement(null);
-                    _displayResizers('none');
                 }
             }; //end of _removeElement()
 
@@ -792,105 +758,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
 
 
 
-            var _createResizers = function() {
-                /*
-		    	 * Resizing handles
-		    	 */
-                handler.resizers.wrapper = handler.document.createElement('div');
-                handler.body.appendChild(handler.resizers.wrapper);
-                handler.resizers.wrapper.classList.add('resizer-wrapper');
-
-                handler.resizers.border = handler.document.createElement('div');
-                handler.resizers.wrapper.appendChild(handler.resizers.border);
-                handler.resizers.border.classList.add('resizer-border');
-
-                handler.resizers.me = handler.document.createElement('div');
-                handler.resizers.wrapper.appendChild(handler.resizers.me);
-                handler.resizers.me.classList.add('resizer');
-                handler.resizers.me.classList.add('resizer-me');
-                handler.resizers.me.classList.add('ui-resizable-handle');
-                handler.resizers.me.classList.add('ui-resizable-e');
-
-                handler.resizers.se = handler.document.createElement('div');
-                handler.resizers.wrapper.appendChild(handler.resizers.se);
-                handler.resizers.se.classList.add('resizer');
-                handler.resizers.se.classList.add('resizer-se');
-                handler.resizers.se.classList.add('ui-resizable-handle');
-                handler.resizers.se.classList.add('ui-resizable-se');
-
-                handler.resizers.sm = handler.document.createElement('div');
-                handler.resizers.wrapper.appendChild(handler.resizers.sm);
-                handler.resizers.sm.classList.add('resizer');
-                handler.resizers.sm.classList.add('resizer-sm');
-                handler.resizers.sm.classList.add('ui-resizable-handle');
-                handler.resizers.sm.classList.add('ui-resizable-s');
-            }; //end of _createResizers()
-
-
-
-            var _calculateResizerDimensions = function(element) {
-                var $el = $(element),
-                $elOffset = $el.offset(),
-                $elWidth = $el.outerWidth(),
-                $elHeight = $el.outerHeight();
-
-                $(handler.resizers.wrapper).css({
-                    left: $elOffset.left - $el.scrollLeft() - handler.body.scrollLeft,
-                    top: $elOffset.top - $el.scrollTop() - handler.body.scrollTop,
-                    width: $elWidth,
-                    height: $elHeight
-                });
-            }; //end of _calculateResizerDimensions()
-
-
-            var _makeBoxResizable = function(element) {
-                var $el = $(element),
-                $originalEl =$( $(element).data('originalElement') );
-
-                _calculateResizerDimensions(element);
-                _displayResizers('block');
-
-                handler.window.makeElementResizable(function(ev, ui) {
-
-                    var w = handler.resizers.wrapper.offsetWidth,
-                    h = handler.resizers.wrapper.offsetHeight,
-                    $handler = $($(ev)[0].target);
-
-                    if( ui.originalSize.width !== ui.size.width ) {
-                        $originalEl.outerWidth(w);
-                    }
-
-                    if( ui.originalSize.height !== ui.size.height ) {
-                        $originalEl.outerHeight(h);
-                    }
-
-                    $el.parentsUntil('body').andSelf().add(handler.body).each(function() {
-                        Wireframe.setHandlerStyle(this, $(this).data('originalElement'), styles);
-                    });
-
-                    _scrollEventHandler(null, true);
-
-
-                    if(ev.type === 'resizestop') {
-                        Wireframe.update(false);
-                    }
-
-                    didgeridoo.api.event.publish('didgeridoo-designer.element.change', $originalEl);
-
-                    return $originalEl;
-                });
-
-                resizing = true;
-            }; //end of _makeBoxResizable()
-
-
-
-            var _displayResizers = function(display) {
-                handler.resizers.wrapper.style.display = display;
-            }; //end of _displayResizers()
-
-
-
             var _copyEventHandler = function(ev) {
             };
 
@@ -899,17 +766,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
             var _clickEventHandler = function(ev) {
                 _selectElement(ev.target);
                 handler.window.focus();
-            };
-
-
-
-            var _dblclickEventHandler = function(ev) {
-                if( !editing && !resizing && ev.target.classList.contains('element') ) {
-                    _makeBoxResizable(ev.target);
-                }
-
-                ev.preventDefault();
-                ev.stopPropagation();
             };
 
 
@@ -925,10 +781,6 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
 
                     handler.scrollLeft = handler.body.scrollLeft;
                     handler.scrollTop = handler.body.scrollTop;
-
-                    if(selectedElement) {
-                        Interaction.resizers.calculateDimensions(selectedElement);
-                    }
                 }
             };
 
@@ -985,18 +837,11 @@ define(['require', 'text!./main.html', 'event'], function(require, html) {
                         startEditing: _editText,
                         stopEditing: _stopEditingText
                     },
-                    startResizing: _makeBoxResizable,
                     selected: selectedElement
-                },
-                resizers: {
-                    create: _createResizers,
-                    display: _displayResizers,
-                    calculateDimensions: _calculateResizerDimensions
                 },
                 events: {
                     copy: _copyEventHandler,
                     click: _clickEventHandler,
-                    dblclick: _dblclickEventHandler,
                     keydown: _keydownEventHandler,
                     selectStart: _selectstartEventHandler,
                     scroll: _scrollEventHandler

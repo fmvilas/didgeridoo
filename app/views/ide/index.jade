@@ -3,9 +3,10 @@ html
 	head
 		|<meta http-equiv="Cache-control" content="no-cache">
 		|<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		!= csrfMetaTag()
+		meta(name="csrf-param", content="authenticity_token")
+		meta(name="csrf-token", content=csrf_token)
 		|<title>Didgeridoo IDE</title>
 		|<link rel="stylesheet" type="text/css" href="/css/styles.css" />
-		|<link rel="icon" href="/favicon.png" />
+		|<link rel="icon" href="/favicon.png?v=2" />
 		|<script data-main="/app/main" src="/app/libs/require/require.js"></script>
 	body

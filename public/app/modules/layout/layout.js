@@ -3,13 +3,12 @@
 define([
     'require',
     'text!./layout.html',
+    'tabs',
     'core',
-    'action',
-    'event',
-    'libs/jqueryui/tabs',
-    'libs/jqueryui/sortable',
-    'libs/jqueryui/resizable'
-], function(require, html) {
+    'API.Action',
+    'API.Event',
+    'jquery.ui.resizable'
+], function(require, html, Tabs) {
     
     //Add HTML
     document.body.innerHTML += html;
@@ -24,39 +23,13 @@ define([
         sidebarIsResizing = false;
     
     
-    //Create Tabs on the center panel
-    $centerPanel.tabs({
-        tabTemplate: '<li><a href="#{href}">#{label}</a> <span rel="#{href}" class="ui-icon ui-icon-close">Remove Tab</span></li>',
-        show: function(ev, ui) {
-            didgeridoo.documents.currentDocument = didgeridoo.documents[ui.panel.id];
-            didgeridoo.api.event.publish(moduleName + '.tab.show', ui.panel.id);
-        }
-    });
-    
-    //Make Tabs sortable
-    $centerPanelTabs.sortable({
-        axis: 'x',
-        forceHelperSize: true
+    var tabs = new Tabs({
+        el: document.querySelector('.ui-layout-center'),
+        cssClass: 'ui-layout-center-tab-list unselectable'
     });
 
-    //Create a new empty file on double click the tabs bar
-    $centerPanelTabs.dblclick(function(ev) {
-        if( ev.target === this ) {
-            didgeridoo.api.action.do('FileNew');
-        }
-    });
-    
-    
-    //
-    //Event handlers for layout
-    //
-    
-    
-    //Add functionality to Close button on each tab
-    $centerPanelTabs.on('click', '.ui-icon-close', function(ev) {
-        var id = $(this).attr('rel').substr(1);
-			
-        didgeridoo.documents[id].close();
+    tabs.tabListElement.addEventListener('dblclick', function() {
+        didgeridoo.api.action.do('FileNew');
     });
     
     // A little trick to debounce the Window's resize event
@@ -171,11 +144,11 @@ define([
         var _addPanel = function(moduleName) {
             require([moduleName], function(m) {
 
-                $('#didgeridoo-panel-window-template').tmpl({
+                $sidebarContainer.append(_.template( _.unescape($('#didgeridoo-panel-window-template').html()), {
                     id: m.id,
                     title: m.title,
                     classes: m.classes
-                }).appendTo($sidebarContainer);
+                }));
                 
                 var $panelWindow = $('#' + m.id);
                 
@@ -281,7 +254,7 @@ define([
     
     $sidebar.resizable({
         handles: 'e',
-        minWidth: 200,
+        minWidth: 65,
         stop: function(evt, ui) {
             $sidebar.data('width', $sidebar.css('width'));
             didgeridoo.api.event.publish('layout-sidebar.resized', ui);
@@ -298,15 +271,12 @@ define([
     
     
     // Populate module to didgeridoo object
-    didgeridoo.layout = {
-        getNorthPanel: function() {
-            return $northPanel.get(0);
-        },
-        getSideBar: _sidebar,
-        getCenterPanel: function() {
-            return $centerPanel.get(0);
-        }
-    };
+    createNS('didgeridoo.layout');
+
+    didgeridoo.layout.northPanel = $northPanel.get(0);
+    didgeridoo.layout.getSideBar = _sidebar;
+    didgeridoo.layout.centerPanel = $centerPanel.get(0);
+    didgeridoo.layout.centerPanelTabs = tabs;
 
     //Public interface
     return didgeridoo.layout;

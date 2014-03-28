@@ -1,6 +1,6 @@
 "use strict";
 
-define(['require', 'action'], function(require) {
+define(['require', 'API.Action'], function(require) {
 
 	didgeridoo.api.action.register('FileOpen', function(path) {
 		require(['modules/document/Document'], function(Document) {
@@ -20,7 +20,7 @@ define(['require', 'action'], function(require) {
 				type = 'PlainText'
 			}
 
-			new Document(type).load('/p/' + didgeridoo.currentProject + '/f' + path);
+			new Document(type).load('/p/' + didgeridoo.api.project.currentProject.id + '/f' + path);
 		});
 	});
 

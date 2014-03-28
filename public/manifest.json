@@ -8,7 +8,7 @@
     ],
     "launch": {
       "web_url": "http://localhost:3000/ide",
-      "container": "panel"
+      "container": "tab"
     }
   },
   "icons": {

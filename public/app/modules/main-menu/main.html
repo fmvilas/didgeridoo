@@ -1,6 +1,8 @@
 <ul id="didgeridoo-main-menu" data-open="false">
     <li class="didgeridoo-main-menu-disabled">
-        <a id="didgeridoo-main-menu-didgeridoo">Didgeridoo</a>
+        <a id="didgeridoo-main-menu-didgeridoo">
+            <img src="images/didgeridoo.png">
+        </a>
     </li>
     <li>
         <a id="didgeridoo-main-menu-file">File</a>
@@ -33,6 +35,16 @@
         </ul>
     </li>
     <li>
+        <a id="didgeridoo-main-menu-project">Project</a>
+        <ul>
+            <li data-action="ProjectNew"><a>New...</a></li>
+            <li data-action="ProjectOpen"><a>Open...</a></li>
+            <li data-action="ProjectClose"><a>Close</a></li>
+            <li class="didgeridoo-main-menu-separator"></li>
+            <li data-action="ProjectShowAllProjects"><a>Show All Projects</a></li>
+        </ul>
+    </li>
+    <li>
         <a id="didgeridoo-main-menu-help">Help</a>
         <ul>            
             <li data-action="HelpContentsDialog"><a>Help Contents...</a></li>
@@ -59,7 +71,7 @@
     #didgeridoo-main-menu {
         color: #bbb;
         width:100%;
-        height:34px;
+        height:38px;
         list-style: none;
         margin: 0;
         padding-left: 0;
@@ -67,32 +79,32 @@
         -moz-padding-start: 0;
     }
 
-    .ui-layout-north.collapsed li {
+    /*.ui-layout-north.collapsed li {
         display: none;
-    }
+    }*/
 
-    .ui-layout-north.collapsed li:first-child {
+    #didgeridoo-main-menu > li:first-child {
         display: block;
         width: 40px;
         overflow: hidden;
-        margin-left: 5px;
+        margin-left: 7px;
     }
 
-    .ui-layout-north.collapsed:hover li {
+    /*.ui-layout-north.collapsed:hover li {
         display: block;
     }
 
     .ui-layout-north.collapsed:hover li:first-child {
         display: block;
         width: auto;
-    }
+    }*/
 
     #didgeridoo-main-menu > li {
         float: left;
         text-indent: none;
         position: relative;
-        height: 34px;
-        margin-top: 1px;
+        height: 38px;
+        margin-top: 2px;
     }
 
     #didgeridoo-main-menu > li:first-child {
@@ -152,7 +164,7 @@
         left:0;
         width: 250px;
         margin: 0;
-        background-color: #1C140D;
+        background-color: #272822;
         box-shadow:rgba(0,0,0,.4) 0 5px 10px;
         border: #333 1px solid;
         list-style: none;
@@ -245,25 +257,33 @@
     */
 
     #didgeridoo-main-menu #didgeridoo-main-menu-didgeridoo {
-        display:block;
-        background: url(/images/didgeridoo.png) 5px 4px no-repeat transparent;
-        width: 40px;
-        height: 35px;
-        margin: 0 10px 0 0;
+        display: block;
+        width: 50px;
+        height: 50px;
+        margin: 0;
         padding: 0;
         border: none;
         border-radius: 0;
-        text-indent: -99999px;
+    }
+
+    #didgeridoo-main-menu #didgeridoo-main-menu-didgeridoo img {
+        display: block;
+        margin-top: 2px;
+    }
+
+    #didgeridoo-main-menu #didgeridoo-main-menu-didgeridoo:hover {
+        background-color: transparent;
     }
 
     #didgeridoo-main-menu #didgeridoo-main-menu-user {
-        height: 37px;
+        margin-top: 0;
+        height: 38px;
     }
 
     #didgeridoo-main-menu #didgeridoo-main-menu-user .didgeridoo-main-menu-user-name {
-        display:inline-block;
+        display: inline-block;
         color: #ccc;
-        height: 37px;
+        height: 38px;
         margin: 0 20px 0 0;
         padding: 0;
         border: none;
@@ -272,8 +292,8 @@
 
     #didgeridoo-main-menu .didgeridoo-main-menu-user-avatar {
         display: inline-block;
-        max-width: 37px;
-        height: 37px;
+        max-width: 38px;
+        height: 38px;
         margin-right: 10px;
         overflow: hidden;
     }

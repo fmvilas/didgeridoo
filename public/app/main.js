@@ -2,47 +2,93 @@ require.config({
     baseUrl: '/app',
     paths: {
         //RequireJS plugins
-        text: 'libs/require/plugins/text',
+        text: 'components/requirejs-text/text',
         //Didgeridoo modules and libs
         core: 'core/core',
-        action: 'api/action/action',
-        shortcut: 'api/shortcut/shortcut',
-        'event': 'api/event/event',
-        'util/system': 'api/util/system/system',
-        user: 'api/user/user',
-        jquery: 'libs/jquery/jquery.min',
-        'jquery-cookie': 'libs/jquery-cookie/jquery.cookie',
-        dynatree: 'libs/dynatree/jquery.dynatree-1.2.4',
-        underscore: 'libs/underscore/underscore-min',
-        bootstrap: 'libs/bootstrap/bootstrap',
-        'jquery-tmpl': 'libs/jquerytemplates/jquery.tmpl.min',
-        autoGrowInput: 'libs/autoGrowInput/autoGrowInput',
-        codemirror_script: 'libs/codemirror/lib/codemirror',
-        layout: 'modules/layout/layout'
+
+        'API.Action': 'api/action/action',
+        'API.Event': 'api/event/event',
+        'API.Project': 'api/project/project',
+        'API.Shortcut': 'api/shortcut/shortcut',
+        'API.Util': 'api/util/util',
+        'API.User': 'api/user/user',
+
+        autogrow: 'libs/autoGrowInput/autoGrowInput',
+        codemirror: 'libs/codemirror/codemirror',
+        codemirror_script: 'components/codemirror/lib/codemirror',
+        dynatree: 'components/dynatree/dist/jquery.dynatree.min',
+        jquery: 'components/jquery/jquery.min',
+        'jquery.ui.core': 'components/jquery.ui/ui/jquery.ui.core',
+        'jquery.ui.mouse': 'components/jquery.ui/ui/jquery.ui.mouse',
+        'jquery.ui.position': 'components/jquery.ui/ui/jquery.ui.position',
+        'jquery.ui.resizable': 'components/jquery.ui/ui/jquery.ui.resizable',
+        'jquery.ui.selectable': 'components/jquery.ui/ui/jquery.ui.selectable',
+        'jquery.ui.sortable': 'components/jquery.ui/ui/jquery.ui.sortable',
+        'jquery.ui.widget': 'components/jquery.ui/ui/jquery.ui.widget',
+        underscore: 'components/underscore/underscore-min',
+        
+        layout: 'modules/layout/layout',
+        tabs: 'modules/tabs/tabs',
+        tab: 'modules/tabs/tab'
     },
     shim: {
-        'core': {
-            deps: ['jquery', 'jquery-tmpl', 'jquery-cookie', 'bootstrap']
+        autogrow: {
+            deps: ['jquery'],
+            exports: '$.fn.autoGrowInput'
         },
-        'libs/codemirror/codemirror': {
-            deps: ['codemirror_script']
+        codemirror: {
+            deps: ['codemirror_script'],
+            exports: 'CodeMirror'
         },
-        'dynatree': {
-            deps: ['jquery']
+        core: {
+            deps: ['jquery'],
+            exports: 'didgeridoo'
         },
-        'bootstrap': {
-            deps: ['jquery', 'underscore']
+        dynatree: {
+            deps: ['jquery'],
+            exports: '$.fn.dynatree'
         },
-        'jqueryui': {
-            deps: ['jquery']
+        jquery: {
+            exports: '$'
         },
-        'jquery-tmpl': {
-            deps: ['jquery']
+        'jquery.ui.core': {
+            exports: '$.ui'
         },
-        'autoGrowInput': {
-            deps: ['jquery']
+        'jquery.ui.mouse': {
+            deps: [ 'jquery.ui.core',
+                    'jquery.ui.widget'],
+            exports: '$.ui.mouse'
+        },
+        'jquery.ui.position': {
+            deps: [ 'jquery.ui.core',
+                    'jquery.ui.mouse',
+                    'jquery.ui.widget'],
+            exports: '$.ui.position'
+        },
+        'jquery.ui.resizable': {
+            deps: [ 'jquery.ui.core',
+                    'jquery.ui.mouse',
+                    'jquery.ui.widget'],
+            exports: '$.ui.resizable'
+        },
+        'jquery.ui.selectable': {
+            deps: [ 'jquery.ui.core',
+                    'jquery.ui.mouse',
+                    'jquery.ui.widget'],
+            exports: '$.ui.selectable'
+        },
+        'jquery.ui.sortable': {
+            deps: [ 'jquery.ui.core',
+                    'jquery.ui.mouse',
+                    'jquery.ui.widget'],
+            exports: '$.ui.sortable'
+        },
+        'jquery.ui.widget': {
+            deps: [ 'jquery.ui.core'],
+            exports: '$.ui.widget'
         }
     }
 });
 
 require(['init']);
+

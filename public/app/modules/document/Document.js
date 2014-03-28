@@ -2,8 +2,8 @@
 define([
 	'require',
 	'text!./Document.html',
-	'shortcut',
-	'event',
+	'API.Shortcut',
+	'API.Event',
 	'layout'
 ], function(require, html) {
 
@@ -105,7 +105,7 @@ define([
 		};
 
 		this.getURL = function() {
-			return _url ? _url.substring(('/p/'+didgeridoo.currentProject+'/f').length) : _url;
+			return _url ? _url.substring(('/p/'+didgeridoo.api.project.currentProject.id+'/f').length) : _url;
 		};
 
 		this.setURL = function(newURL) {
@@ -178,17 +178,15 @@ define([
         if( typeof didgeridoo.documents[_id] === 'undefined' ) {
             didgeridoo.documents[_id] = this;
         }
-        
-        //Render HTML
-        $.tmpl( html, {
+
+        //Create new tab
+        //$(didgeridoo.layout.centerPanel).tabs( 'add', '#' + _id, _title );
+        didgeridoo.layout.centerPanelTabs.add(_id, _title, _.template(html, {
             id: _id,
             state: this.getState(),
             url: this.getURL(),
             title: _title
-        } ).appendTo( didgeridoo.layout.getCenterPanel() );
-
-        //Create new tab
-        $(didgeridoo.layout.getCenterPanel()).tabs( 'add', '#' + _id, _title );
+        }));
 
 
         var $docWrapper = $('#' + _id),
@@ -202,7 +200,7 @@ define([
         	require(['modules/designer/main'], function(Designer) {
 	            _this.setDesigner( new Designer(_id) );
 	                
-	            $(didgeridoo.layout.getCenterPanel()).tabs( 'select', '#' + _id );
+	            didgeridoo.layout.centerPanelTabs.select(_id);
 	            _this.getDesigner().renderTo($designerContainer[0], function() {
 	                _this.getDesigner().loadURL(url, function() {
 	                    didgeridoo.api.event.publish(moduleName + '.document.load', _id);                        
@@ -214,7 +212,7 @@ define([
         require(['modules/codeview/main'], function(CodeView) {
             _this.setCodeView( new CodeView(_id) );
                 
-            $(didgeridoo.layout.getCenterPanel()).tabs( 'select', '#' + _id );
+            didgeridoo.layout.centerPanelTabs.select(_id);
             _this.getCodeView().renderTo($codeviewContainer[0], function() {
             	if( url ) {
             		this.load(url, mode, function() {
@@ -275,7 +273,7 @@ define([
 		var _title = title || 'Untitled',
 			_domRef;
 
-		$(didgeridoo.layout.getCenterPanel()).tabs( 'add', '#' + documentId, _title );
+		$(didgeridoo.layout.centerPanel).tabs( 'add', '#' + documentId, _title );
 	};
 
 

@@ -1,18 +1,18 @@
 define([
 	'require',
-	'libs/codemirror/mode/clike/clike',
-	'libs/codemirror/mode/xml/xml',
-	'libs/codemirror/mode/css/css',
-	'libs/codemirror/mode/javascript/javascript',
-	'libs/codemirror/mode/htmlmixed/htmlmixed',
-	'libs/codemirror/addons/active-line',
+	'components/codemirror/mode/clike/clike',
+	'components/codemirror/mode/xml/xml',
+	'components/codemirror/mode/css/css',
+	'components/codemirror/mode/javascript/javascript',
+	'components/codemirror/mode/htmlmixed/htmlmixed',
+	'components/codemirror/addon/selection/active-line',
 	'api/util/css/css'
 	], function(require) {
 
-	var cssFile = require.toUrl('./lib/codemirror.css');
+	var cssFile = require.toUrl('components/codemirror/lib/codemirror.css');
 		didgeridoo.api.util.css.load(cssFile);
 
-	var themeFile = require.toUrl('./theme/monokai.css');
+	var themeFile = require.toUrl('components/codemirror/theme/monokai.css');
 		didgeridoo.api.util.css.load(themeFile);
 	
 }); //end of define

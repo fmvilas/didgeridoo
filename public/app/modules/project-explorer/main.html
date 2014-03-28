@@ -1,18 +1,24 @@
-<div id="didgeridoo-project-explorer-tree-wrapper" class="light-scrollbar"></div>
+<div class="didgeridoo-project-explorer-empty">There is no open project.</div>
+<div class="didgeridoo-project-explorer-tree-wrapper" class="light-scrollbar"></div>
 
 <style type="text/css">
-	#didgeridoo-project-explorer-tree-wrapper {
+	.didgeridoo-project-explorer-empty {
+		display: block;
+	}
+
+	.didgeridoo-project-explorer-tree-wrapper {
+		display: none;
 	    position: absolute;
 	    left: 0;
 	    top: 0;
 	    right: 0;
 	    bottom: 0;
 	    overflow: auto;
-	    background-color: white;
+	    background-color: #444;
 	    padding: 5px;
 	}
 
-	#didgeridoo-project-explorer-tree-wrapper ul.dynatree-container {
+	.didgeridoo-project-explorer-tree-wrapper ul.dynatree-container {
 	    border: none;
 	    overflow: visible;
 	}
@@ -26,7 +32,7 @@
 	    white-space: nowrap;
 	    padding: 3px;
 	    margin: 0; /* issue 201 */
-	    background-color: white;
+	    background-color: #444;
 	    border: 1px dotted gray;
 	    overflow: auto;
 	    height: 100%; /* issue 263 */
@@ -308,7 +314,7 @@
 	/*, ul.dynatree-container a:visited*/
 	{
 	    cursor: default;
-	    color: black; /* inherit doesn't work on IE */
+	    color: #fff; /* inherit doesn't work on IE */
 	    text-decoration: none;
 	    vertical-align: top;
 	    margin: 0px;
@@ -317,7 +323,7 @@
 	    /* Set transparent border to prevent jumping when active node gets a border
 	       (we can do this, because this theme doesn't use vertical lines)
 	       */
-	    border: 1px solid white; /* Note: 'transparent' would not work in IE6 */
+	    border: 1px solid transparent; /* Note: 'transparent' would not work in IE6 */
 
 	}
 
@@ -337,8 +343,8 @@
 	ul.dynatree-container a:focus,
 	span.dynatree-focused a:link  /* @IE */
 	{
-	    background-color: #F1F0F2;
-	    border: #F1F0F2 1px solid;
+	    background-color: #555;
+	    border: #555 1px solid;
 	    outline: none;
 	}
 
@@ -359,8 +365,8 @@
 
 	span.dynatree-active a
 	{
-	    background-color: #F1F0F2;
-	    border: #F1F0F2 1px solid;
+	    background-color: #555;
+	    border: #555 1px solid;
 	    outline: none;
 	}
 

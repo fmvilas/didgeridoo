@@ -1,0 +1,23 @@
+extends ../layout
+
+block styles
+	link(href='/css/login.css')
+
+block content
+	h1 Login
+
+	form(action=routes.user.login, method='POST', class='login-form')
+		p
+			label(for='email') Your email
+		p
+			input(name='email', value='demo@didgeridoo.io')
+		p
+			label(for='password') Your password
+		p
+			input(name='password', type='password', value='1234')
+
+		input(name='redirect', type='hidden', value=routes.ide)
+		input(type='hidden', name='_csrf', value=csrf_token)
+
+		p
+			input(value='Login', type='submit')
