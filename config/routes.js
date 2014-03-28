@@ -19,6 +19,11 @@ module.exports = function(app){
     app.get(routes.user.logout, csrf, user.logout);
     app.get(routes.user.show, csrf, loadUser, user.show);
 
+    //project-related routes
+    var project = require('../app/controllers/project');
+    app.get(routes.project.files, csrf, project.files);
+    app.get(routes.project.file, csrf, project.fileOpen);
+
     return routes;
 
 };
