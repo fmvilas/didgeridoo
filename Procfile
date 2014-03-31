@@ -1,1 +1,0 @@
-web: GITHUB_SECRET=a63967b6ec2f960d8af0c2e584da92e82c52835a node server.js
