@@ -9,18 +9,20 @@ Didgeridoo is based on a stack of edge technologies, NodeJS ([CompoundJS](compou
 ###Installation
 
 * [Install NodeJS](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
-* Install CompoundJS:
 
-		sudo npm install compound -g
+* Install Bower (make sure git is also installed)
+
+		npm install -g bower
+
 
 * Clone the Didgeridoo repo and install dependencies:
 
 		cd ~
-		git clone git@github.com:fmvilas/Didgeridoo-IDE.git
-		mv Didgeridoo-IDE didgeridoo
+		git clone https://github.com/fmvilas/didgeridoo.git
 		cd didgeridoo
 		npm install
-		
+        cd public/app
+        bower install
 
 * [Install MongoDB](http://docs.mongodb.org/manual/installation/)
 * Configure MongoDB and add some data:
@@ -33,11 +35,11 @@ Didgeridoo is based on a stack of edge technologies, NodeJS ([CompoundJS](compou
 		# Now in mongo…
 		> use didgeridoo
 		> db.addUser({user: "admin", pwd: "1234", roles: []})
-		> db.User.save({ "_id" : ObjectId("5196534c9c253bdbb1d00fb6"), "name" : "Test Project", "owner" : ObjectId("51964caa9c253bdbb1d00fb4") })
-		> db.Project.save({ "_id" : ObjectId("5196534c9c253bdbb1d00fb6"), "name" : "Test Project", "owner" : ObjectId("51964caa9c253bdbb1d00fb4") })
+		> db.users.save({ "_id" : ObjectId("51964caa9c253bdbb1d00fb4"), "name" : "Demo", "email" : "demo@didgeridoo.io", "password" : "$2a$10$.OpHOFU9YsMtuBlyOxNI7uwJ7lwV.0AeD5LwNLRzE3HooKsim2pLe" })
+		> db.projects.save({ "_id" : ObjectId("5196534c9c253bdbb1d00fb6"), "name" : "Test Project", "owner" : ObjectId("51964caa9c253bdbb1d00fb4") })
 		> exit
 		
-		# IMPORTANT: Note that db.addUser and db.User.save are not referring to the same kind of user. First adds a new user to the MongoDB system while second adds a new user to the Didgeridoo's User collection (User table in SQL). So, first is used to access MongoDB and second is used to log on Didgeridoo IDE.
+		# IMPORTANT: Note that db.addUser and db.users.save are not referring to the same kind of user. First adds a new user to the MongoDB system while second adds a new user to the Didgeridoo's users collection (users table in SQL). So, first is used to access MongoDB and second is used to log on Didgeridoo IDE.
 
 		# Go back to Window 2 and press Ctrl+C to stop the mongod process and write:
 		sudo mongod --auth
@@ -54,25 +56,16 @@ Didgeridoo is based on a stack of edge technologies, NodeJS ([CompoundJS](compou
 		
 		# Change to the project dir and put some content inside
 		cd ~/didgeridoo-content/5196534c9c253bdbb1d00fb6
-		echo "This is a test file" > test.txt
-		
+		echo "<h1>This is a test file</h1>" > index.html
+
+* Go to Gruntfile.js and change the DOO\_CONTENT environment variable to match your full path to the didgeridoo-content directory.
+
 * If you've reached this point without problems (then you're my hero) you should have the Window 2 with the *sudo mongod --auth* command. Don't close it. It's the MongoDB daemon. Just go to Window 1 and type:
 
 		cd ~/didgeridoo
-		compound s
+		grunt
 
-* You should have Didgeridoo listening on port 3000, so go to your web browser and navigate to **localhost:3000/ide**
-
-##Server side
-
-###CompoundJS
-
-Didgeridoo is using CompoundJS, which is a framework that works on top of [Express](http://www.expressjs.com).
-
-CompoundJS creates a server instance listening at port 3000 by default. If you want Didgeridoo running on another port you can specify it as follows:
-
-	# Listen on port 80 (you might need to sudo)
-	sudo compound s 80
+* You should have Didgeridoo listening on port 3000, so go to your web browser and navigate to **http://localhost:3000/**
 
 ###MongoDB
 
@@ -95,7 +88,6 @@ Compared to relational databases, for example, collections could be considered a
 		]
 	}
 
-##Client side
 
 ###App structure
 
@@ -109,7 +101,7 @@ Didgeridoo is divided in four main parts or concepts. These are:
 ![image](modules-facade-core-libraries-diagram.jpg)
 
 
-The **core** is a single file and it contains the main program, controlling the initialization of the app, the API and so on.
+The **core** is a single file and it contains utilities for the rest of the pieces to work.
 
 **Libraries** are script files that provide a better and simple experience while coding, such as jQuery, jQuery UI, Bootstrap, etc.
 
@@ -117,17 +109,17 @@ The **core** is a single file and it contains the main program, controlling the 
 
 For the purpose of loading modules and libraries you should use RequireJS ([requirejs.org]()), which is included by default.
 
-	//Example: Loading the Underscore library at libraries/underscore
+	//Example: Loading the Underscore library at public/app/libs/underscore
 
-	require(['libraries/underscore/underscore-min'], function() {
+	require(['components/underscore/underscore'], function() {
 		//Now you can use Underscore
 	});
 
 	//Example: Loading a Underscore library by its name, previously declared at
-	// 		   /public/app/didgeridoo.js
+	//		 /public/app/main.js.
 
 	require(['underscore'], function() {
 		//Now you can use Underscore
 	});
 
-An **action** is a kind of module that defines a common task. You should define an action when a common task can be done in various ways and you can't control all these ways. For example, a common task that fits the definition is the *FileSave* action, which can be performed via keyboard (Ctrl/Cmd+S), via top menu option File > Save, or even an automated script that eventually save all files.
+**Actions** are a kind of module that defines a common task. You should define an action when a common task can be done in various ways and you can't control all these ways. For example, a common task that fits the definition is the *FileSave* action, which can be performed via keyboard (Ctrl/Cmd+S), via top menu option File > Save, or even an automated script that eventually save all files.
