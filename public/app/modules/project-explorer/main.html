@@ -1,9 +1,16 @@
-<div class="didgeridoo-project-explorer-empty">There is no open project.</div>
+<div class="didgeridoo-project-explorer-error alert alert-danger"></div>
+<div class="didgeridoo-project-explorer-empty alert alert-info">There is no open project.</div>
 <div class="didgeridoo-project-explorer-tree-wrapper" class="light-scrollbar"></div>
 
 <style type="text/css">
+	.didgeridoo-project-explorer-error {
+		display: none;
+		font-size: 14px;
+	}
+
 	.didgeridoo-project-explorer-empty {
 		display: block;
+		font-size: 14px;
 	}
 
 	.didgeridoo-project-explorer-tree-wrapper {

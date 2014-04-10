@@ -29,11 +29,11 @@ define([
 			return new Document();
 
 		var _id = 'document' + new Date().getTime(),
-		_state = 'closed',
-		_url,
-		_title = '',
-		_designer = null,
-        _codeview = null;
+			_state = 'closed',
+			_url,
+			_title = '',
+			_designer = null,
+	        _codeview = null;
 
 		//Initialize
 		didgeridoo.documents = didgeridoo.documents || {};
@@ -105,7 +105,7 @@ define([
 		};
 
 		this.getURL = function() {
-			return _url ? _url.substring(('/p/'+didgeridoo.api.project.currentProject.id+'/f').length) : _url;
+			return _url ? _url.substring(('/p/'+didgeridoo.api.project.currentProject._id+'/f').length) : _url;
 		};
 
 		this.setURL = function(newURL) {

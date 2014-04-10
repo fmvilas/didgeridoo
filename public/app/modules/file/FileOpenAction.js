@@ -20,7 +20,7 @@ define(['require', 'API.Action'], function(require) {
 				type = 'PlainText'
 			}
 
-			new Document(type).load('/p/' + didgeridoo.api.project.currentProject.id + '/f' + path);
+			new Document(type).load('/p/' + didgeridoo.api.project.currentProject._id + '/f' + path);
 		});
 	});
 

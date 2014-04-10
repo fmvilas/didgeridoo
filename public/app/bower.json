@@ -19,7 +19,6 @@
     "jquery": "~2.*.*",
     "jquery.cookie": "~1.*.*",
     "jquery.ui": "~1.*.*",
-    "q": "0.9.*",
     "requirejs": "~2.*.*",
     "requirejs-text": "~2.*.*",
     "underscore": "~1.*.*"

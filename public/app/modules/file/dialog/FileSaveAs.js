@@ -19,7 +19,7 @@ define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'API.Actio
             	nodeIcon: 'dynatree-icon file-type-icon'
             },
             initAjax: {
-                url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
+                url: '/p/' + didgeridoo.api.project.currentProject._id + '/f',
                 data: {
                 	list: 'folders'
                 }
@@ -34,14 +34,14 @@ define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'API.Actio
             },
             onLazyRead: function(node){
                 node.appendAjax({
-                    url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
+                    url: '/p/' + didgeridoo.api.project.currentProject._id + '/f',
                     data: {
                     	list: 'folders',
                         directory: node.data.key
                     },
                     success: function() {
                         if(node && node.tree) {
-                            var n = node.tree.getNodeByKey('/'+didgeridoo.api.project.currentProject.id+'/');
+                            var n = node.tree.getNodeByKey('/'+didgeridoo.api.project.currentProject._id+'/');
 
                             if(n) n.sortChildren(_compareFunction, true);
                         }
@@ -60,7 +60,7 @@ define(['require', 'modules/dialog/Dialog', 'text!./FileSaveAs.html', 'API.Actio
             },
             onActivate: function(node) {
             	$.ajax({
-            		url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
+            		url: '/p/' + didgeridoo.api.project.currentProject._id + '/f',
             		data: {
             			directory: node.data.key,
             			list: 'files'

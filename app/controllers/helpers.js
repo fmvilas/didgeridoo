@@ -23,13 +23,26 @@ module.exports = {
 		    console.dir(req.session.user.id);
 		}
 
-		User.find(req.params.id, function (err, user) {
+		User.findOne(req.params.id, function (err, user) {
 		    if (err || !user) {
 		        res.json(404, {error: 'Not found'});
 		    } else {
-		        this.user = user;
+		        req.user = user;
 		        next();
 		    }
 		});
+	},
+
+	loadProject: function(req, res, next) {
+		var Project = require('mongoose').model('Project'); 
+
+	    Project.findOne(req.params.id, function (err, project) {
+	        if (err || !project) {
+	            res.json(404, {error: 'Not found'});
+	        } else {
+	        	req.project = project;
+	            next();
+	        }
+	    });
 	}
 };

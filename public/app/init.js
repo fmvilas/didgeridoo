@@ -6,6 +6,7 @@ define([
     'API.Shortcut',
     'API.Util',
     'API.Project',
+    'API.File',
     'modules/file/file',
     'modules/project/project'
 ], function(core, layout) {
@@ -26,8 +27,8 @@ define([
     });
 
     // Show confirmation before exiting
-    window.onbeforeunload = function() {
+    /*window.onbeforeunload = function() {
         return "Leaving Didgeridoo this way may cause an information loss.";
-    };
+    };*/
 
 });

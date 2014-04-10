@@ -116,7 +116,7 @@ define([
 			}
 
 			$.ajax({
-				url: '/p/' + didgeridoo.api.project.currentProject.id + '/f' + url,
+				url: '/p/' + didgeridoo.api.project.currentProject._id + '/f' + url,
 				type: 'POST',
 				data: {
 					body: _editor.getValue(),

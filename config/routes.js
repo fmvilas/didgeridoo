@@ -4,6 +4,7 @@ module.exports = function(app){
         csrf = helpers.csrf,
         authRequired = helpers.authRequired,
         loadUser = helpers.loadUser,
+        loadProject = helpers.loadProject,
         routes = require('./route_table');
 
     
@@ -20,9 +21,10 @@ module.exports = function(app){
     app.get(routes.user.show, csrf, loadUser, user.show);
 
     //project-related routes
-    var project = require('../app/controllers/project');
-    app.get(routes.project.files, csrf, project.files);
-    app.get(routes.project.file, csrf, project.fileOpen);
+    var project = require('../app/controllers/project')();
+    app.get(routes.project.info, csrf, loadProject, project.info);
+    app.get(routes.project.files, csrf, loadProject, project.files);
+    app.get(routes.project.file, csrf, loadProject, project.fileOpen);
 
     return routes;
 

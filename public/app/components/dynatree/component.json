@@ -1,5 +1,0 @@
-{
-  "name": "dynatree",
-  "version": "1.2.4",
-  "main": ["dist/jquery.dynatree.min.js","src/skin/ui.dynatree.css"]
-}

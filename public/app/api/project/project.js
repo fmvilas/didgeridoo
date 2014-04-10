@@ -5,7 +5,7 @@
  *
  * @module api/project/project
  */
-define(['core'], function() {
+define(['core', 'API.Util'], function() {
 	
 	createNS('didgeridoo.api.project');
 
@@ -16,19 +16,20 @@ define(['core'], function() {
 	 */
 	didgeridoo.api.project.get = function() {
 
-		var url,
+		var args = arguments,
+			url,
 			cb,
 			pid;
 
-		if( arguments.length < 2 ) {
+		if( args.length < 2 ) {
 			throw new didgeridoo.api.project.ProjectOpenError('Too few parameters on <didgeridoo.api.project.get> call.');
-		} else if( arguments.length === 2 ) {
-			assert(typeof arguments[0] === 'string', 'Parameter pid must be a string.', didgeridoo.api.project.ProjectGetError);
-			assert(arguments[0].trim().length > 0, 'Invalid pid parameter.', didgeridoo.api.project.ProjectGetError);
-			assert(typeof arguments[1] === 'function', 'Parameter callback must be a function.', didgeridoo.api.project.ProjectGetError);
-			pid = arguments[0];
+		} else if( args.length === 2 ) {
+			assert(typeof args[0] === 'string', 'Parameter pid must be a string.', didgeridoo.api.project.ProjectGetError);
+			assert(args[0].trim().length > 0, 'Invalid pid parameter.', didgeridoo.api.project.ProjectGetError);
+			assert(typeof args[1] === 'function', 'Parameter callback must be a function.', didgeridoo.api.project.ProjectGetError);
+			pid = args[0];
 			url = '/p/' + pid;
-			cb = arguments[1];
+			cb = args[1];
 		} else {
 			throw new didgeridoo.api.project.ProjectGetError('Too much parameters on <didgeridoo.api.project.get> call.');
 		}
@@ -40,10 +41,9 @@ define(['core'], function() {
 				format: 'json'
 			},
 			success: function(Project) {
-				didgeridoo.api.project.currentProject = Project;
 				cb.apply(this, [Project]);
 			},
-			error: function() {
+			error: function(err) {
 				throw new didgeridoo.api.project.ProjectGetError('Couldn\'t get project with id "' + pid + '".');
 			}
 		});
@@ -52,21 +52,77 @@ define(['core'], function() {
 
 
 	/**
+	 * Returns an array of files for the given project.
+	 * @param {string} pid The id of the project you want to retrieve the file array from.
+	 * @param {function} callback Callback function to perform once file array is retrieved.
+	 */
+	didgeridoo.api.project.getFiles = function() {
+
+		var args = arguments,
+			url,
+			query,
+			cb,
+			pid,
+			isObject = didgeridoo.api.util.isObject;
+
+		assert(typeof args[0] === 'string', 'Parameter pid must be a string.', didgeridoo.api.project.ProjectGetError);
+		assert(args[0].trim().length > 0, 'Invalid pid parameter.', didgeridoo.api.project.ProjectGetError);
+		pid = args[0];
+		url = '/p/' + pid + '/f';
+
+		if( args.length < 2 ) {
+			throw new didgeridoo.api.project.ProjectGetError('Too few parameters on <didgeridoo.api.project.getFiles> call.');
+		} else if( args.length === 2 ) {
+			assert(typeof args[1] === 'function', 'Parameter callback must be a function.', didgeridoo.api.project.ProjectGetError);
+			
+			query = null;
+			cb = args[1];
+		} else if( args.length === 3 ) {
+			assert(isObject(args[1], true), 'Parameter query must be an object.', didgeridoo.api.project.ProjectGetError);
+			assert(typeof args[2] === 'function', 'Parameter callback must be a function.', didgeridoo.api.project.ProjectGetError);
+			
+			query = args[1];
+			cb = args[2];
+		} else {
+			throw new didgeridoo.api.project.ProjectGetError('Too much parameters on <didgeridoo.api.project.getFiles> call.');
+		}
+
+		$.ajax({
+			url: url,
+			type: 'GET',
+			data: {
+				format: 'json',
+				query: query
+			},
+			success: function(files) {
+				cb.apply(this, [files]);
+			},
+			error: function(err) {
+				throw new didgeridoo.api.project.ProjectGetError('Couldn\'t get project files.');
+			}
+		});
+
+	};
+
+
+
+	/**
 	 * Open a project
 	 * @param {string} pid The id of the project you want to open.
 	 * @param {function} callback Callback function to perform once project is open.
 	 */
 	didgeridoo.api.project.open = function() {
-		var url,
+		var args = arguments,
+			url,
 			cb,
 			pid;
 
-		if( arguments.length === 0 ) {
+		if( args.length === 0 ) {
 			throw new didgeridoo.api.project.ProjectOpenError('Too few parameters on <didgeridoo.api.project.open> call.');
-		} else if( arguments.length === 1 ) {
-			assert(typeof arguments[0] === 'string', 'Parameter pid must be a string.', didgeridoo.api.project.ProjectOpenError);
-			assert(arguments[0].trim().length > 0, 'Invalid pid parameter.', didgeridoo.api.project.ProjectOpenError);
-			pid = arguments[0];
+		} else if( args.length === 1 ) {
+			assert(typeof args[0] === 'string', 'Parameter pid must be a string.', didgeridoo.api.project.ProjectOpenError);
+			assert(args[0].trim().length > 0, 'Invalid pid parameter.', didgeridoo.api.project.ProjectOpenError);
+			pid = args[0];
 			url = '/p/' + pid;
 		} else {
 			throw new didgeridoo.api.project.ProjectOpenError('Too much parameters on <didgeridoo.api.project.open> call.');
@@ -74,6 +130,7 @@ define(['core'], function() {
 
 		try {
 			didgeridoo.api.project.get(pid, function(p) {
+				didgeridoo.api.project.currentProject = p;
 				didgeridoo.api.event.publish('didgeridoo.api.project.open', p);
 			});
 		} catch(e) {

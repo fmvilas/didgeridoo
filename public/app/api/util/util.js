@@ -61,6 +61,32 @@ define(['core'], function() {
 
 
     /**
+     * Checks if a variable is an object. Optionally strictly checks if
+     * the constructor is Object, so Array, Date, etc. will not be considered
+     * objects.
+     *
+     * @param target variable to check.
+     * @param {boolean} [strict] ensure it's an Object instance.
+     * @returns {boolean} whether it's an object or not.
+     */
+    didgeridoo.api.util.isObject = function(target, strict) {
+        var ret;
+
+        if( typeof target === 'undefined' || typeof target === 'null' ) {
+            ret = false;
+        } else {
+            if( strict ) {
+                ret = (target.constructor && target.constructor.toString().indexOf('Object') !== -1);
+            } else {
+                ret = (typeof ret === 'object');
+            }
+        }
+        
+        return ret;
+    };
+
+
+    /**
      * System Info
      */
     didgeridoo.api.util.system = (function() {

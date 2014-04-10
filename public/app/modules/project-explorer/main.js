@@ -2,15 +2,17 @@
 define([
     'require',
     'text!./main.html',
+    'underscore',
     'API.Action',
     'API.Event',
     'layout',
     'dynatree'
-], function(require, html) {
+], function(require, html, _) {
 
     var moduleName = 'ProjectExplorer',
         $tree,
         $empty,
+        $error,
         isRendered = false;
 
     var _compareFunction = function(a, b) {
@@ -24,34 +26,54 @@ define([
         return a > b ? 1 : a < b ? -1 : 0;
     };
 
-    var _createTree = function() {
+    var _createTree = function(files) {
+        _.each(files, function(file, index) {
+            files[index].isLazy = file.isFolder;
+        });
+
+        files = [{
+            'title': didgeridoo.api.project.currentProject.name,
+            'key': '/',
+            'size': 0,
+            'modified': null,
+            'expand': true,
+            'isFolder': true,
+            'isLazy': true,
+            'children': files
+        }];
+
         $empty.css('display', 'none');
-        
+
         $tree.css('display', 'block').dynatree({
+            children: files,
             debugLevel: 0,
             classNames: {
                 nodeIcon: 'dynatree-icon file-type-icon'
-            },
-            initAjax: {
-                url: '/p/' + didgeridoo.api.project.currentProject.id + '/f'
             },
             onPostInit: function() {
                 var node = this.getNodeByKey('/');
                 
                 if(node) node.sortChildren(_compareFunction, true);
             },
-            onLazyRead: function(node){
-                node.appendAjax({
+            onLazyRead: function(node) {
+                $.ajax({
                     url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
+                    type: 'GET',
                     data: {
-                        directory: node.data.key
-                    },
-                    success: function() {
-                        if(node && node.tree) {
-                            var n = node.tree.getNodeByKey('/'+didgeridoo.api.project.currentProject.id+'/');
-
-                            if(n) n.sortChildren(_compareFunction, true);
+                        query: {
+                            path: node.data.key,
+                            hidden: true
                         }
+                    },
+                    success: function(files) {
+                        _hideError();
+                        _.each(files, function(file, index) {
+                            files[index].isLazy = file.isFolder;
+                        });
+                        node.addChild(files).sortChildren(_compareFunction, true);
+                    },
+                    error: function(err) {
+                        $error.html('There was an error while trying to load the tree.');
                     }
                 });
             },
@@ -67,7 +89,9 @@ define([
                     didgeridoo.api.action.do('FileOpen', node.data.key);
                 }
             }
-        }).dynatree('getRoot').sortChildren(_compareFunction, true);
+        });
+        
+        $tree.dynatree('getRoot').sortChildren(_compareFunction, true);
     };
     
     var _render = function(selector) {
@@ -79,14 +103,37 @@ define([
         
         $tree = $('.didgeridoo-project-explorer-tree-wrapper', $selector);
         $empty = $('.didgeridoo-project-explorer-empty', $selector);
+        $error = $('.didgeridoo-project-explorer-error', $selector);
 
         if( didgeridoo.api.project.currentProject && didgeridoo.api.project.currentProject.id ) {
-            _createTree();
+            $.ajax({
+                url: '/p/' + didgeridoo.api.project.currentProject.id + '/f',
+                type: 'GET',
+                data: {
+                    query: {
+                        hidden: true
+                    }
+                },
+                success: function(files) {
+                    _hideError();
+                    _createTree(files);
+                    isRendered = true;
+                    didgeridoo.api.event.publish(moduleName + '.rendered');
+                },
+                error: function(err) {
+                    _showError('There was an error while trying to load the tree.');
+                }
+            });
+            
         }
-        
-        isRendered = true;
+    };
 
-        didgeridoo.api.event.publish(moduleName + '.rendered');
+    var _showError = function(msg) {
+        $error.html(msg).show();
+    };
+
+    var _hideError = function() {
+        $error.hide();
     };
     
     didgeridoo.api.event.subscribe('layout.sidebar.panel.selected', function(topic, info) {

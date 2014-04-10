@@ -14,7 +14,8 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     develop: {
       server: {
-        file: 'server.js'
+        file: 'server.js',
+        env: { DOO_CONTENT: '/Users/Consultant/www/didgeridoo-content' }
       }
     },
     watch: {

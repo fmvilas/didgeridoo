@@ -57,18 +57,14 @@ module.exports = {
     },
 
     show: function(req, res, next) {
-        var u = req.session.user;
-
+        var u = req.user.toObject();
+        
         if( u ) {
-            res.json({
-                id: u.id,
-                email: u.email,
-                name: u.name || '',
-                githubLogin: u.githubLogin || false,
-                avatarURL: u.avatarURL || '',
-                preferences: u.preferences || {},
-                //projects: apiUserProjects()
-            });
+            u.id = u._id;
+            delete u._id;
+            delete u.password;
+            
+            res.json(u);
         } else {
             res.redirect( routes.user.login );
         }

@@ -6,7 +6,8 @@ module.exports = {
     	show: '/u/:id'
     },
     project: {
-    	files: '/p/:id',
-    	file: '/p/:id/f/*'
+    	info: '/p/:id',
+        files: '/p/:id/f',
+        file: '/p/:id/f/*'
     }
 };
