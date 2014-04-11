@@ -9,8 +9,8 @@ define([
     'API.File',
     'modules/file/file',
     'modules/project/project'
-], function(core, layout) {
-    
+], function(core, layout, Action, Event, Shortcut, Util, Project, File) {
+
     didgeridoo.authenticityToken = $('meta[name="csrf-token"]').attr('content');
 
     // Constructs the Didgeridoo User Interface.

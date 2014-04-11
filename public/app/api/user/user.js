@@ -9,6 +9,12 @@ define(['core', 'jquery'], function() {
 	
 	createNS('didgeridoo.api.user');
 
+	// There must be an user object created server-side when
+	// logged in. Let's move it to User API namespace.
+	didgeridoo.api.user.currentUser	= clone(user, true);
+	delete window.user;
+	
+
 	/**
 	 * Returns user information.
 	 * @param {string} [userid] (Optional) The id of the user you want to retrieve information. Default: 0 (logged user).

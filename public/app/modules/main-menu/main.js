@@ -4,10 +4,10 @@ define([
     'text!./main.html',
     'API.Action',
     'API.Event',
-    'layout',
     'API.User',
+    'layout',
     'modules/user/user'
-], function(require, html) {
+], function(require, html, Action, Event, User) {
 
     var moduleName = 'MainMenu';
     
@@ -32,10 +32,18 @@ define([
             var $mainMenu = $('#didgeridoo-main-menu', selector);
             
             //Load User Info
-            didgeridoo.api.user.get(function(u) {
-                if( u.name.length > 0 ) $('.didgeridoo-main-menu-user-name').html(u.name);
-                if( u.avatarURL.length > 0 ) $('.didgeridoo-main-menu-user-avatar').attr('src', u.avatarURL);
-            });
+            var user = User.currentUser;
+
+            // TODO: Big DRY in here!
+            if( typeof user === 'undefined' ) {
+                User.get(function(user) {
+                    if( user.name.length > 0 ) $('.didgeridoo-main-menu-user-name').html(user.name);
+                    if( user.avatarURL.length > 0 ) $('.didgeridoo-main-menu-user-avatar').attr('src', user.avatarURL);
+                });
+            } else {
+                if( user.name.length > 0 ) $('.didgeridoo-main-menu-user-name').html(user.name);
+                if( user.avatarURL.length > 0 ) $('.didgeridoo-main-menu-user-avatar').attr('src', user.avatarURL);
+            }
             
 
 

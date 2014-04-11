@@ -159,6 +159,57 @@ define(function() {
     global.AssertError.prototype.constructor = AssertError;
 
 
+    /**
+     * Makes a copy of an object, either a shallow or a deep copy.
+     *
+     * @global
+     * @param {object} obj Object to clone.
+     * @param {boolean} deep true to make a deep copy.
+     * @private
+     * @returns {object} Either a shallow or a deep copy of the object.
+     */
+    global.clone = function(obj, deep) {
+        var ret;
+
+        if( deep ) {
+            ret = _deepClone(obj);
+        } else {
+            var prop;
+
+            ret = {};
+
+            for (prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    ret[prop] = obj[prop];
+                }
+            }
+        }
+
+        return ret;
+    };
+
+
+    /**
+     * Performs a deep copy of an object
+     *
+     * @global
+     * @param {object} obj Object to clone.
+     * @private
+     * @returns {object} An exact copy of the object.
+     */
+    var _deepClone = function(obj) {
+        if(obj === null || typeof obj !== 'object') {
+            return obj;
+        }
+
+        var temp = obj.constructor();
+
+        for(var key in obj) {
+            temp[key] = _deepClone(obj[key]);
+        }
+        
+        return temp;
+    };
 
     return didgeridoo;
 });

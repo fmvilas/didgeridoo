@@ -4,6 +4,7 @@ module.exports = function(app){
         csrf = helpers.csrf,
         authRequired = helpers.authRequired,
         loadUser = helpers.loadUser,
+        normalizeUserObject = helpers.normalizeUserObject,
         loadProject = helpers.loadProject,
         routes = require('./route_table');
 
@@ -11,14 +12,14 @@ module.exports = function(app){
 
 	//ide route
 	var ide = require('../app/controllers/ide');
-	app.get(routes.ide, authRequired, csrf, ide.index);
+	app.get(routes.ide, authRequired, csrf, loadUser, normalizeUserObject, ide.index);
 
     //user-related routes
     var user = require('../app/controllers/user');
     app.get(routes.user.login, csrf, user.login);
     app.post(routes.user.login, csrf, user.logon);
     app.get(routes.user.logout, csrf, user.logout);
-    app.get(routes.user.show, csrf, loadUser, user.show);
+    app.get(routes.user.show, csrf, loadUser, normalizeUserObject, user.show);
 
     //project-related routes
     var project = require('../app/controllers/project')();

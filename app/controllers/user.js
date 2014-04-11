@@ -57,16 +57,10 @@ module.exports = {
     },
 
     show: function(req, res, next) {
-        var u = req.user.toObject();
-        
-        if( u ) {
-            u.id = u._id;
-            delete u._id;
-            delete u.password;
-            
-            res.json(u);
+        if( req.user ) {
+            res.json(req.user);
         } else {
-            res.redirect( routes.user.login );
+            res.send(403);
         }
     },
 

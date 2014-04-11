@@ -18,7 +18,9 @@ module.exports = {
 		var User = require('mongoose').model('User');
 
 		// id === 0 means it referes to the current logged user
-		if( req.params.id === '0' && req.session.user && req.session.user.id ) {
+		if( (req.params.id === '0' || typeof req.params.id === 'undefined')
+			&& req.session.user && req.session.user.id )
+		{
 		    req.params.id = req.session.user.id;
 		    console.dir(req.session.user.id);
 		}
@@ -31,6 +33,20 @@ module.exports = {
 		        next();
 		    }
 		});
+	},
+
+	normalizeUserObject: function(req, res, next) {
+		if( req.user ) {
+			var u = req.user.toObject();
+
+			u.id = u._id;
+            delete u._id;
+            delete u.password;
+
+            req.user = u;
+		}
+
+		next();
 	},
 
 	loadProject: function(req, res, next) {
