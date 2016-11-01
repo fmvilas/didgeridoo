@@ -1,6 +1,6 @@
 <img src="logo.png">
 
-## IMPORTANT! This project is no logner maintained.
+## IMPORTANT! This project is no longer maintained.
 
 ####Your help is more than welcome ;-)
 
